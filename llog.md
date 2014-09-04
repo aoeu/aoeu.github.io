@@ -1,7 +1,7 @@
 # Travis' llog
 
 ## About
-This is a local log (llog) text file that managed via version control and served statically.
+This is a local log (llog) text file that is managed via version control and served statically from various servers.
 
 ## 20140904 : 1409869214
 
