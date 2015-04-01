@@ -1,7 +1,52 @@
 # Travis' llog
 
 ## About
-This is a local log (llog) text file that managed via version control and served statically.
+This is a log of things I learn, experiment with, or think about.
+There isn't an intended audience.
+
+
+## 1421676983 - 20150119
+An idiom for logging to Standard Error and exiting with error status in golang:
+- `log.Fatal("an error explanation")` will log to standard error and exit.
+- You can remove the "timestamp" prefix of the log message with `log.SetFlags(0)`
+- You can set a custom prefix with `log.SetPrefix(someString + ": ")`
+
+Also, Go's `net/url.Parse` is just wrapping and calling `net/url.ParseRequestURI` and bypassing some of the latter's error checking.
+(`ParseRequestURI` is intended for full URI's specifiying an encoding, etc.)
+
+## 20141026
+- Install crouton / i3
+- Install java, newer than version 6. Try something like: 
+-- `sudo apt-get install openjdk-7-jdk'
+-- `sudo update-alternatives --config java`
+- Download Android Studio: https://developer.android.com/sdk/installing/studio.html
+- `tar xzvf android-studio-bundle-135.1339820-linux.tgz`
+- `cd android-studio/bin; ./studio.sh`
+
+Waiting for Java to insall, gradle to get dependencies, and Android Studio takes some time.
+
+Other light amounts of magic I required:
+Set X to run from regular users: ```
+sudo ed /etc/X11/Xwrapper.config 
+,s/console/anybody/
+wq
+```
+For weird libstdc++6.so errors from `adb` : `sudo apt-get install lib32stdc++6 lib32z1 lib32z1-dev`
+
+
+
+## 20141012
+Today, I'm thinking about email hygeine. 
+The idea here is to remove oneself from mailing lists or other uneccessary,
+noisey messages. 
+
+I haven't thought of a great way to do this yet programatically.
+
+One possible algorithm or method:
+- Open your mail box.
+- Go through every message for a day (or part of day).
+- Click unsubscribe on noisey, unecessary mail messages.
+
 
 ## 20140904 : 1409869214
 
