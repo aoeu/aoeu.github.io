@@ -47,7 +47,6 @@ One possible algorithm or method:
 - Go through every message for a day (or part of day).
 - Click unsubscribe on noisey, unecessary mail messages.
 
-
 ## 20140904 : 1409869214
 
 ### Today, I thought about primitive alternatives to `pbcopy`
