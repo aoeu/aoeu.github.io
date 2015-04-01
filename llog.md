@@ -1,4 +1,4 @@
-# Travis' llog
+# Hello there, stranger.
 
 ## About
 This is a log of things I learn, experiment with, or think about.
