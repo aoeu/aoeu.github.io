@@ -10,10 +10,15 @@
 <h1 id="travis-llog">Travis' llog</h1>
 <h2 id="about">About</h2>
 <p>This is a log of things I learn, experiment with, or think about. There isn't an intended audience.</p>
-<h2 id="section">1421676983 - 20150119</h2>
+<h2 id="section">20150401 - 1427927658</h2>
+<p>I moved the markdown file from the llog repository into a github pages repostiory.<br />I've been thinking about doing something like this for a while - I gets lots of ideas of things to jot down and write, but I'd like the simplest possible mechanisms to author and publish.</p>
+<p>I've added some complexity by relying on pandoc to generate an HTML page file from the markdown, but this seems simpler than using some of the other popular tools out there.</p>
+<p>All I did was: - Create a repostiory on github called <code>aoeu.github.io</code> - <code>git clone https://github.com/aoeu/aoeu.github.io.git</code> - <code>git clone https://github.com/aoeu/llog.git</code> - <code>git remote add master master</code> - <code>git pull master master</code> - <code>ls -a llog.md</code> - <code>git remote rm master</code> - <code>pandoc -s llog.md -o index.html</code> - <code>git push origin master</code> - `w3m https://aoeu.github.io'</p>
+<p>I'd rather get something even simpler in place, but this setup will do for now.</p>
+<h2 id="section-1">1421676983 - 20150119</h2>
 <p>An idiom for logging to Standard Error and exiting with error status in golang: - <code>log.Fatal(&quot;an error explanation&quot;)</code> will log to standard error and exit. - You can remove the &quot;timestamp&quot; prefix of the log message with <code>log.SetFlags(0)</code> - You can set a custom prefix with <code>log.SetPrefix(someString + &quot;: &quot;)</code></p>
 <p>Also, Go's <code>net/url.Parse</code> is just wrapping and calling <code>net/url.ParseRequestURI</code> and bypassing some of the latter's error checking. (<code>ParseRequestURI</code> is intended for full URI's specifiying an encoding, etc.)</p>
-<h2 id="section-1">20141026</h2>
+<h2 id="section-2">20141026</h2>
 <ul>
 <li>Install crouton / i3</li>
 <li>Install java, newer than version 6. Try something like: -- <code>sudo apt-get install openjdk-7-jdk' --</code>sudo update-alternatives --config java`</li>
@@ -23,11 +28,11 @@
 </ul>
 <p>Waiting for Java to insall, gradle to get dependencies, and Android Studio takes some time.</p>
 <p>Other light amounts of magic I required: Set X to run from regular users: <code>sudo ed /etc/X11/Xwrapper.config  ,s/console/anybody/ wq</code> For weird libstdc++6.so errors from <code>adb</code> : <code>sudo apt-get install lib32stdc++6 lib32z1 lib32z1-dev</code></p>
-<h2 id="section-2">20141012</h2>
+<h2 id="section-3">20141012</h2>
 <p>Today, I'm thinking about email hygeine. The idea here is to remove oneself from mailing lists or other uneccessary, noisey messages.</p>
 <p>I haven't thought of a great way to do this yet programatically.</p>
 <p>One possible algorithm or method: - Open your mail box. - Go through every message for a day (or part of day). - Click unsubscribe on noisey, unecessary mail messages.</p>
-<h2 id="section-3">20140904 : 1409869214</h2>
+<h2 id="section-4">20140904 : 1409869214</h2>
 <h3 id="today-i-thought-about-primitive-alternatives-to-pbcopy">Today, I thought about primitive alternatives to <code>pbcopy</code></h3>
 <p>If you're using OS X, you can move data from the terminal to the clipboard with the <code>pbcopy</code> command. If you have X, you can use <code>xclip</code>.</p>
 <p>A way that I like better is using temporary files: - <code>date &gt; /tmp/today.txt</code> Append some arbitrary data to a text file (instead of a clipboard). - <code>vim some_file.txt</code> Edit an arbitrary file. - <code>:r /tmp/today.txt</code> Insert the data from the arbitary after the current cursorline.</p>

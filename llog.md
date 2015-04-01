@@ -4,6 +4,25 @@
 This is a log of things I learn, experiment with, or think about.
 There isn't an intended audience.
 
+## 20150401 - 1427927658
+I moved the markdown file from the llog repository into a github pages repostiory.  
+I've been thinking about doing something like this for a while - I gets lots of ideas of things to jot down and write, but I'd like the simplest possible mechanisms to author and publish.  
+
+I've added some complexity by relying on pandoc to generate an HTML page file from the markdown, but this seems simpler than using some of the other popular tools out there.
+
+All I did was:
+- Create a repostiory on github called `aoeu.github.io`
+- `git clone https://github.com/aoeu/aoeu.github.io.git`
+- `git clone https://github.com/aoeu/llog.git`
+- `git remote add master master`
+- `git pull master master`
+- `ls -a llog.md`
+- `git remote rm master`
+- `pandoc -s llog.md -o index.html`
+- `git push origin master`
+- `w3m https://aoeu.github.io'
+
+I'd rather get something even simpler in place, but this setup will do for now.
 
 ## 1421676983 - 20150119
 An idiom for logging to Standard Error and exiting with error status in golang:
