@@ -4,6 +4,29 @@
 This is a log of things I learn, experiment with, or think about.
 There isn't an intended audience.
 
+## 1427944190 - 20150401
+I've learned and tweaked a few things.
+
+- In vim, use `set shell=/bin/sh` to set a specific shell.
+- In vim, `:r !./tools/timestamp` now creates a timestamp.
+- I'm ditching pandoc for "blackfriday"
+-- blackfriday does just markdown to HTML conversion (do one thing and one thing well) vs. pandoc, which converts many formats to many others.
+-- blackfriday is written in Go, so I currently will be able to edit it more easily than pandoc, which is written in Haskell.
+- I added a Makefile to make building a little easier.
+
+blackfriday is also the first thing I build with Go 1.5 pre-release, using 
+[Dave Cheney's instructions](http://dave.cheney.net/2015/03/03/cross-compilation-just-got-a-whole-lot-better-in-go-1-5)
+as a reference.
+The goal is to cross compile for ARM 6 so I can run some golang 
+sound generating programs on the Raspberry Pi Arch Linux installation 
+I set up last night.
+
+Also, bcgraham and I got some bug fixes and enhancements merged into 
+http://github.com/aoeu/mta, and we can deployed to http://mta.today.
+The result is pretty nice to use from `w3m` since the tables and
+and everything get rendered correctly now.
+
+
 ## 1427927658 - 20150401
 I moved the markdown file from the llog repository into a github pages repostiory.  
 I've been thinking about doing something like this for a while - I gets lots of ideas of things to jot down and write, but I'd like the simplest possible mechanisms to author and publish.  

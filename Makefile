@@ -1,5 +1,5 @@
 index.html : llog.md
-	pandoc -s llog.md -o index.html
+	./tools/blackfriday -page llog.md > index.html
 
 clean :
 	rm index.html
