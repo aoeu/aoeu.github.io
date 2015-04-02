@@ -1,19 +1,55 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
-  <meta name="generator" content="pandoc" />
-  <title></title>
+  <title>Hello there, stranger.</title>
+  <meta name="GENERATOR" content="Blackfriday Markdown Processor v1.1" />
+  <meta charset="utf-8" />
 </head>
 <body>
-<h1 id="hello-there-stranger.">Hello there, stranger.</h1>
-<h2 id="about">About</h2>
-<p>This is a log of things I learn, experiment with, or think about. There isn't an intended audience.</p>
-<h2 id="section">1427927658 - 20150401</h2>
-<p>I moved the markdown file from the llog repository into a github pages repostiory.<br />I've been thinking about doing something like this for a while - I gets lots of ideas of things to jot down and write, but I'd like the simplest possible mechanisms to author and publish.</p>
-<p>I've added some complexity by relying on pandoc to generate an HTML page file from the markdown, but this seems simpler than using some of the other popular tools out there.</p>
+
+<h1>Hello there, stranger.</h1>
+
+<h2>About</h2>
+
+<p>This is a log of things I learn, experiment with, or think about.
+There isn&rsquo;t an intended audience.</p>
+
+<h2>1427944190 - 20150401</h2>
+
+<p>I&rsquo;ve learned and tweaked a few things.</p>
+
+<ul>
+<li>In vim, use <code>set shell=/bin/sh</code> to set a specific shell.</li>
+<li>In vim, <code>:r !./tools/timestamp</code> now creates a timestamp.</li>
+<li>I&rsquo;m ditching pandoc for &ldquo;blackfriday&rdquo;
+&ndash; blackfriday does just markdown to HTML conversion (do one thing and one thing well) vs. pandoc, which converts many formats to many others.
+&ndash; blackfriday is written in Go, so I currently will be able to edit it more easily than pandoc, which is written in Haskell.</li>
+<li>I added a Makefile to make building a little easier.</li>
+</ul>
+
+<p>blackfriday is also the first thing I built with Go 1.5 pre-release, using
+<a href="http://dave.cheney.net/2015/03/03/cross-compilation-just-got-a-whole-lot-better-in-go-1-5">Dave Cheney&rsquo;s instructions</a>
+as a reference.
+I just compiled and bootstrapped Go 1.5 a bit ago.
+The goal is to cross compile for ARM 6 so I can run some golang
+sound generating programs on the Raspberry Pi Arch Linux installation
+I set up last night.</p>
+
+<p>Earlier tonigt, bcgraham and I also got some bug fixes
+and enhancements merged into
+<a href="http://github.com/aoeu/mta">http://github.com/aoeu/mta</a>, and we can deployed to <a href="http://mta.today">http://mta.today</a>.
+The result is pretty nice to use from <code>w3m</code> since the tables and
+and everything get rendered correctly now.</p>
+
+<h2>1427927658 - 20150401</h2>
+
+<p>I moved the markdown file from the llog repository into a github pages repostiory.<br />
+I&rsquo;ve been thinking about doing something like this for a while - I gets lots of ideas of things to jot down and write, but I&rsquo;d like the simplest possible mechanisms to author and publish.</p>
+
+<p>I&rsquo;ve added some complexity by relying on pandoc to generate an HTML page file from the markdown, but this seems simpler than using some of the other popular tools out there.</p>
+
 <p>All I did was:</p>
+
 <ul>
 <li>Create a repostiory on github called <code>aoeu.github.io</code></li>
 <li><code>git clone https://github.com/aoeu/aoeu.github.io.git</code></li>
@@ -24,34 +60,79 @@
 <li><code>git remote rm master</code></li>
 <li><code>pandoc -s llog.md -o index.html</code></li>
 <li><code>git push origin master</code></li>
-<li>`w3m https://aoeu.github.io'</li>
+<li><code>w3m https://aoeu.github.io</code></li>
 </ul>
-<p>I'd rather get something even simpler in place, but this setup will do for now.</p>
-<h2 id="section-1">1421676983 - 20150119</h2>
-<p>An idiom for logging to Standard Error and exiting with error status in golang: - <code>log.Fatal(&quot;an error explanation&quot;)</code> will log to standard error and exit. - You can remove the &quot;timestamp&quot; prefix of the log message with <code>log.SetFlags(0)</code> - You can set a custom prefix with <code>log.SetPrefix(someString + &quot;: &quot;)</code></p>
-<p>Also, Go's <code>net/url.Parse</code> is just wrapping and calling <code>net/url.ParseRequestURI</code> and bypassing some of the latter's error checking. (<code>ParseRequestURI</code> is intended for full URI's specifiying an encoding, etc.)</p>
-<h2 id="section-2">20141026</h2>
+
+<p>I&rsquo;d rather get something even simpler in place, but this setup will do for now.</p>
+
+<h2>1421676983 - 20150119</h2>
+
+<p>An idiom for logging to Standard Error and exiting with error status in golang:
+- <code>log.Fatal(&quot;an error explanation&quot;)</code> will log to standard error and exit.
+- You can remove the &ldquo;timestamp&rdquo; prefix of the log message with <code>log.SetFlags(0)</code>
+- You can set a custom prefix with <code>log.SetPrefix(someString + &quot;: &quot;)</code></p>
+
+<p>Also, Go&rsquo;s <code>net/url.Parse</code> is just wrapping and calling <code>net/url.ParseRequestURI</code> and bypassing some of the latter&rsquo;s error checking.
+(<code>ParseRequestURI</code> is intended for full URI&rsquo;s specifiying an encoding, etc.)</p>
+
+<h2>20141026</h2>
+
 <ul>
 <li>Install crouton / i3</li>
-<li>Install java, newer than version 6. Try something like: -- <code>sudo apt-get install openjdk-7-jdk' --</code>sudo update-alternatives --config java`</li>
-<li>Download Android Studio: https://developer.android.com/sdk/installing/studio.html</li>
+<li>Install java, newer than version 6. Try something like:
+&ndash; <code>sudo apt-get install openjdk-7-jdk'
+--</code>sudo update-alternatives &ndash;config java`</li>
+<li>Download Android Studio: <a href="https://developer.android.com/sdk/installing/studio.html">https://developer.android.com/sdk/installing/studio.html</a></li>
 <li><code>tar xzvf android-studio-bundle-135.1339820-linux.tgz</code></li>
 <li><code>cd android-studio/bin; ./studio.sh</code></li>
 </ul>
+
 <p>Waiting for Java to insall, gradle to get dependencies, and Android Studio takes some time.</p>
-<p>Other light amounts of magic I required: Set X to run from regular users: <code>sudo ed /etc/X11/Xwrapper.config  ,s/console/anybody/ wq</code> For weird libstdc++6.so errors from <code>adb</code> : <code>sudo apt-get install lib32stdc++6 lib32z1 lib32z1-dev</code></p>
-<h2 id="section-3">20141012</h2>
-<p>Today, I'm thinking about email hygeine. The idea here is to remove oneself from mailing lists or other uneccessary, noisey messages.</p>
-<p>I haven't thought of a great way to do this yet programatically.</p>
-<p>One possible algorithm or method: - Open your mail box. - Go through every message for a day (or part of day). - Click unsubscribe on noisey, unecessary mail messages.</p>
-<h2 id="section-4">20140904 : 1409869214</h2>
-<h3 id="today-i-thought-about-primitive-alternatives-to-pbcopy">Today, I thought about primitive alternatives to <code>pbcopy</code></h3>
-<p>If you're using OS X, you can move data from the terminal to the clipboard with the <code>pbcopy</code> command. If you have X, you can use <code>xclip</code>.</p>
-<p>A way that I like better is using temporary files: - <code>date &gt; /tmp/today.txt</code> Append some arbitrary data to a text file (instead of a clipboard). - <code>vim some_file.txt</code> Edit an arbitrary file. - <code>:r /tmp/today.txt</code> Insert the data from the arbitary after the current cursorline.</p>
-<p>Appending text may have been a more reasonable alternative: <code>date &gt;&gt; some_file.txt</code></p>
-<h3 id="today-i-decided-to-start-a-blog-in-markdown-even-if-it-is-just-local.">Today, I decided to start a blog in markdown, even if it is just local.</h3>
-<p>I've decided to call it a &quot;llog&quot;.</p>
-<h3 id="today-i-firewalled-a-new-server.">Today, I firewalled a new server.</h3>
-<p>I mostly followed instructions here: https://www.linode.com/docs/security/securing-your-server And then I skimmed some info from the arch wiki: https://wiki.archlinux.org/index.php/iptables</p>
+
+<p>Other light amounts of magic I required:
+Set X to run from regular users: <code>
+sudo ed /etc/X11/Xwrapper.config 
+,s/console/anybody/
+wq
+</code>
+For weird libstdc++6.so errors from <code>adb</code> : <code>sudo apt-get install lib32stdc++6 lib32z1 lib32z1-dev</code></p>
+
+<h2>20141012</h2>
+
+<p>Today, I&rsquo;m thinking about email hygeine.
+The idea here is to remove oneself from mailing lists or other uneccessary,
+noisey messages.</p>
+
+<p>I haven&rsquo;t thought of a great way to do this yet programatically.</p>
+
+<p>One possible algorithm or method:
+- Open your mail box.
+- Go through every message for a day (or part of day).
+- Click unsubscribe on noisey, unecessary mail messages.</p>
+
+<h2>20140904 : 1409869214</h2>
+
+<h3>Today, I thought about primitive alternatives to <code>pbcopy</code></h3>
+
+<p>If you&rsquo;re using OS X, you can move data from the terminal to the clipboard with
+the <code>pbcopy</code> command.  If you have X, you can use <code>xclip</code>.</p>
+
+<p>A way that I like better is using temporary files:
+- <code>date &gt; /tmp/today.txt</code> Append some arbitrary data to a text file (instead of a clipboard).
+- <code>vim some_file.txt</code> Edit an arbitrary file.
+-  <code>:r /tmp/today.txt</code> Insert the data from the arbitary after the current cursorline.</p>
+
+<p>Appending text may have been a more reasonable alternative:
+<code>date &gt;&gt; some_file.txt</code></p>
+
+<h3>Today, I decided to start a blog in markdown, even if it is just local.</h3>
+
+<p>I&rsquo;ve decided to call it a &ldquo;llog&rdquo;.</p>
+
+<h3>Today, I firewalled a new server.</h3>
+
+<p>I mostly followed instructions here: <a href="https://www.linode.com/docs/security/securing-your-server">https://www.linode.com/docs/security/securing-your-server</a>
+And then I skimmed some info from the arch wiki: <a href="https://wiki.archlinux.org/index.php/iptables">https://wiki.archlinux.org/index.php/iptables</a></p>
+
 </body>
 </html>
