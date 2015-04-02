@@ -3,3 +3,6 @@ index.html : llog.md
 
 clean :
 	rm index.html
+
+publish :
+	git push origin master
