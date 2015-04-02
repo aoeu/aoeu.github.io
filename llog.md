@@ -11,6 +11,7 @@ I've been thinking about doing something like this for a while - I gets lots of 
 I've added some complexity by relying on pandoc to generate an HTML page file from the markdown, but this seems simpler than using some of the other popular tools out there.
 
 All I did was:
+
 - Create a repostiory on github called `aoeu.github.io`
 - `git clone https://github.com/aoeu/aoeu.github.io.git`
 - `git clone https://github.com/aoeu/llog.git`
