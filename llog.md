@@ -21,7 +21,7 @@ All I did was:
 - `git remote rm master`
 - `pandoc -s llog.md -o index.html`
 - `git push origin master`
-- `w3m https://aoeu.github.io'
+- `w3m https://aoeu.github.io`
 
 I'd rather get something even simpler in place, but this setup will do for now.
 
