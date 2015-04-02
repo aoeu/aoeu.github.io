@@ -4,7 +4,7 @@
 This is a log of things I learn, experiment with, or think about.
 There isn't an intended audience.
 
-## 20150401 - 1427927658
+## 1427927658 - 20150401
 I moved the markdown file from the llog repository into a github pages repostiory.  
 I've been thinking about doing something like this for a while - I gets lots of ideas of things to jot down and write, but I'd like the simplest possible mechanisms to author and publish.  
 

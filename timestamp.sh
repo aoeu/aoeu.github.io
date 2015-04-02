@@ -1,2 +1,2 @@
 #!/bin/sh
-date "+%Y%m%d - %s"
+date "%s - +%Y%m%d"
