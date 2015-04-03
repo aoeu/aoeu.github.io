@@ -4,6 +4,38 @@
 This is a log of things I learn, experiment with, or think about.
 There isn't an intended audience.
 
+## 1428025541 - 20150402
+
+Today, I learned some security things over lunch with someone.
+They were nice enough to answer a bunch of questions I had about 
+that part of the field. It is less of a blackbox, at least.
+
+In the evening, I paired with someone on crypto exercises in golang.
+That was fun and relatively productive.
+We found bugs in the exercise.
+
+I shared with a person that is new to golang how to use interfaces 
+and struct composition in Go with some code I wrote:
+
+- [interface example](https://play.golang.org/p/5rQ7LgR3Wl)
+- [struct composition example](http://play.golang.org/p/orGE20_VSk)
+
+It seems like the person found it helpful.
+That made me feel productive, and I can imagine what the language 
+must look like if you're coming from python and not C / C++/ J*va.
+It is nice to help dispell some of the things that confused me, too.
+
+## 1427983169 - 20150402
+
+I fell asleep while pulling down GCC on Arch on the Pi, but 
+I was able to successfully compile a program using portmidi on the Pi
+this morning.
+
+I was also able to cross compile a program for ARM 6 / Arch on 
+from a debian instance. I recompiled Go 1.5 with CGO enabled,
+but I forgot that I also need some mechanism to cross compile 
+the C for ARM 6 / Arch also! That's a project for later.
+
 ## 1427944190 - 20150401
 I've learned and tweaked a few things.
 
