@@ -4,6 +4,48 @@
 This is a log of things I learn, experiment with, or think about.
 There isn't an intended audience.
 
+## 1428497189 - 20150408
+
+I accidentally filled up my Chromebook hard drive pulling down docker 
+(with the intention of trying out the golang mobile stuff for android).
+I couldn't log into my main user account anymore!!
+
+I ended up getting in through the Guest log in, opening crosh in the browser,
+and purging some bigger directories... one of them being the emacs source 
+( ~600mB ) and another being android-studio ( > ~700mB ).  Not surprisingly, 
+android-studio binaries are bigger than the entire emacs git repository. 
+Both directories are huge. +1 for line editors.
+
+I ended up getting more low-profile USB 3 drives to mitigate, which lead to
+[some](https://twitter.com/tmcdemus/status/585490679339610113) 
+[discussions](https://twitter.com/tmcdemus/status/585495257242021888) about
+what filesystem to format the drives with.
+
+I'll try one of the drives out as btrfs since that's supported in back-ports.
+Chrome OS itself will not recognize that drive, but that might be a feature.
+
+ext4 is the reasonable choice - it is supported out-of-the-box on 
+any linux distro I can think of (and therefore is present on live-boot images).
+
+## 1428410883 - 20150407
+
+Over the weekend, I wrote a simple HTTP request header and body 
+"echoer" in golang. I went through a couple refactors thanks
+to Jay giving me some code review.
+
+I may have found a bug in the standard libraries.
+
+I ended up pulling down the Go source on another machine and doing
+some experiments back and forth between the two.
+I wanted to confirm that the problem wasn't from me running the program
+on localhost. Something does seems wrong.
+
+I think the next step would be searching around the code base
+and see what else calls the relevant function... maybe the documentation
+is wrong, or maybe my usage is wrong, or maybe there really is a bug
+and this function should check for zero values and provide defaults
+based on what it does next. 
+
 ## 1428025541 - 20150402
 
 Today, I learned some security things over lunch with someone.
