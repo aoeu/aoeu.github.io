@@ -4,6 +4,52 @@
 This is a log of things I learn, experiment with, or think about.
 There isn't an intended audience.
 
+
+## 1428707143 - 20150410
+
+I resurrected some years-old code based in d3, which has resulted 
+in pursuit of time-series data in a couple specific domains.
+
+The fun part, however, is colors. Lots of colors!!
+
+I ported and rewrote some older golang code that calculates 
+colors in HSL format and dumps them on a web page for previewing:
+
+```
+$ ./gencolors -num 7 -preview 
+```
+<div style='text-align: center; width: 64px; height: 64px; display: inline-block; background-color: #f20c42;'>#f20c42</div>
+
+<div style='text-align: center; width: 64px; height: 64px; display: inline-block; background-color: #f2d107;'>#f2d107</div>
+
+<div style='text-align: center; width: 64px; height: 64px; display: inline-block; background-color: #4ef2cc;'>#4ef2cc</div>
+
+<div style='text-align: center; width: 64px; height: 64px; display: inline-block; background-color: #0cf28f;'>#0cf28f</div>
+
+<div style='text-align: center; width: 64px; height: 64px; display: inline-block; background-color: #0c8ff2;'>#0c8ff2</div>
+
+<div style='text-align: center; width: 64px; height: 64px; display: inline-block; background-color: #4e0cf2;'>#4e0cf2</div>
+
+<div style='text-align: center; width: 64px; height: 64px; display: inline-block; background-color: #f20cd1;'>#f20cd1</div>
+	
+
+This lead to some digging around with how the python `colorsys` module
+is implemented, and how to escape potentially unsafe CSS or HTML in 
+Go's html/template package. (Hint: supply a function map to the 
+template before executing.) 
+
+The resulting colors themselves are pretty useless. 
+Colors with marginally different hue settings in HSL 
+can have very little perceivable difference, and the 
+algorithms don't consider persons with color-blindness.
+They look kind of pretty on a web page, though.
+
+I found some stock color sets ("alphabets") from a couple research articles 
+that look more promising. I'll add these into the library as well as 
+constants. There's not really a goal for the library other than to 
+document what I'm learning as I go, and maybe provide usage for someone
+else since it is open source.
+
 ## 1428497189 - 20150408
 
 I accidentally filled up my Chromebook hard drive pulling down docker 
