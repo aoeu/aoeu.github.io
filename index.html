@@ -14,6 +14,64 @@
 <p>This is a log of things I learn, experiment with, or think about.
 There isn&rsquo;t an intended audience.</p>
 
+<h2>1429880922 - 20150424</h2>
+
+<p>I&rsquo;m reading about <a href="https://en.wikipedia.org/wiki/Init">init</a> very quickly.
+It is the first process started at boot of a Un*x system, and runs
+ as a daemon until shut down.</p>
+
+<p>If one types <code>pstree | less</code> on some systems, one will see <code>init</code> as the root process.</p>
+
+<p>Apparently, <a href="https://en.wikipedia.org/wiki/Systemd">systemd</a> is the name of several things:
+&ldquo;systemd is not just the name of the init daemon but also refers to the entire software bundle around it&rdquo;</p>
+
+<p>That &ldquo;software bundle&rdquo; around it, according to Wikipedia is:
+- A system and service manager. (Does that mean daemons?)
+- A software platform. (Also vague.)
+- The glue between applications and the kernel.</p>
+
+<p>It seems like a Bad Thing that there is lots of stuff that each do very different things,
+ all under one name, or at a minimum, harder to understand and communicate about.</p>
+
+<h2>1429620177 - 20150421</h2>
+
+<p>I spent a lot of the weekend resurrecting some older d3 code and building this thing:</p>
+
+<ul>
+<li><a href="http://www.mcdem.us/climate/c02e.html">http://www.mcdem.us/climate/c02e.html</a></li>
+<li><a href="http://github.com/aoeu/climate">http://github.com/aoeu/climate</a></li>
+</ul>
+
+<p>The color experiments were for this.
+d3 makes more sense than it used to, despite I haven&rsquo;t looked at it at all in the meanwhile.</p>
+
+<p>It was suggested to add a slider, which I think is a good idea.</p>
+
+<h2>1428886299 - 20150412</h2>
+
+<p>I&rsquo;m pulling some data sources I&rsquo;ll transform later for a project.
+I&rsquo;m naming target directories after <em>filenames</em> and paths from the source URIs.
+e.g <code>~/user/repo/data/sources/example.com/path/to/archive.zip/</code> is a directory with files in it.
+To reiterate, the <code>archive.zip</code> component is a <em>directory</em>, and not the actual
+zip file. The contents of the directory are the extracted contents of the source zip file.</p>
+
+<p>The idea is to have the directory be a self-documenting reference to the source file.
+However, this feels like it is being clever, and not clear.
+I also wonder what ill-affects it would have on an unsuspecting shell script.</p>
+
+<h2>1428778652 - 20150411</h2>
+
+<p>Why is <code>origin</code> the idiomatic name for a remote repository in
+ most (if not all) of the git workflows that I&rsquo;ve seen?
+ Naming the only remote repository the word <code>origin</code>
+ implies that the remote is the true source of the code.
+ Why isn&rsquo;t a <em>local</em> repository the true source of
+ the code? Why not have the remote just serve as a backup?
+ Why not have <em>many</em> backups, and name your remotes things
+ like <code>github</code>, <code>bitbucket</code>, <code>my-raspberry-pi</code>, or
+ <code>some-repo-alex-pulls-from</code>?
+ Why not push to all those remotes simultaneously, instead of one?</p>
+
 <h2>1428707143 - 20150410</h2>
 
 <p>I resurrected some years-old code based in d3, which has resulted

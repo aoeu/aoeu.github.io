@@ -4,6 +4,66 @@
 This is a log of things I learn, experiment with, or think about.
 There isn't an intended audience.
 
+## 1429880922 - 20150424
+
+I'm reading about [init](https://en.wikipedia.org/wiki/Init) very quickly. 
+It is the first process started at boot of a Un*x system, and runs
+ as a daemon until shut down.
+
+If one types `pstree | less` on some systems, one will see `init` as the root process.
+
+Apparently, [systemd](https://en.wikipedia.org/wiki/Systemd) is the name of several things:
+"systemd is not just the name of the init daemon but also refers to the entire software bundle around it"
+
+That "software bundle" around it, according to Wikipedia is:
+- A system and service manager. (Does that mean daemons?)
+- A software platform. (Also vague.)
+- The glue between applications and the kernel. 
+
+It seems like a Bad Thing that there is lots of stuff that each do very different things,
+ all under one name, or at a minimum, harder to understand and communicate about.
+
+
+## 1429620177 - 20150421
+
+I spent a lot of the weekend resurrecting some older d3 code and building this thing:
+
+- http://www.mcdem.us/climate/c02e.html
+- http://github.com/aoeu/climate
+
+The color experiments were for this.
+d3 makes more sense than it used to, despite I haven't looked at it at all in the meanwhile.
+
+It was suggested to add a slider, which I think is a good idea.
+
+
+## 1428886299 - 20150412
+
+I'm pulling some data sources I'll transform later for a project.
+I'm naming target directories after *filenames* and paths from the source URIs.
+e.g `~/user/repo/data/sources/example.com/path/to/archive.zip/` is a directory with files in it.
+To reiterate, the `archive.zip` component is a *directory*, and not the actual
+zip file. The contents of the directory are the extracted contents of the source zip file.
+
+The idea is to have the directory be a self-documenting reference to the source file.
+However, this feels like it is being clever, and not clear.
+I also wonder what ill-affects it would have on an unsuspecting shell script.
+
+
+
+## 1428778652 - 20150411
+
+Why is `origin` the idiomatic name for a remote repository in
+ most (if not all) of the git workflows that I've seen?
+ Naming the only remote repository the word `origin`
+ implies that the remote is the true source of the code.
+ Why isn't a *local* repository the true source of 
+ the code? Why not have the remote just serve as a backup? 
+ Why not have *many* backups, and name your remotes things
+ like `github`, `bitbucket`, `my-raspberry-pi`, or
+ `some-repo-alex-pulls-from`? 
+ Why not push to all those remotes simultaneously, instead of one?
+  
 
 ## 1428707143 - 20150410
 
