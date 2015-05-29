@@ -14,6 +14,49 @@
 <p>This is a log of things I learn, experiment with, or think about.
 There isn&rsquo;t an intended audience.</p>
 
+<h2>1432908829 - 20150529</h2>
+
+<p>I&rsquo;ve compiled plan9port again recently, and  ran into some errors caused by missing X libraries, both in Ubuntu and Debian.</p>
+
+<p>There were other errors on Debian Jessie, but a mutual error on Ubuntu Precise was that the library header file X11/IntrinsicP.h could not be found.</p>
+
+<p>The entire compilation and installation process from a  Ubuntu Precise install would be something like the following, although I&rsquo;ve not tested it and some steps may be missing:</p>
+
+<pre><code>#!/bin/sh
+
+main() {
+    # repairPackageManagerState() # only if needed.
+    installBuildTools()
+    installPlan9PortDependencies()
+    getAndCompileAndInstallPlan9Port()
+}
+
+repairPackageManagerState() {
+    sudo dpkg --configure --pending
+    sudo apt-get --fix-broken install
+}
+
+installBuildTools() {
+    sudo apt-get install git
+    sudo apt-get install build-essential
+}
+
+installPlan9PortDependencies() {
+    sudo apt-get install libxt-dev libxext-devel
+}
+
+getAndCompileAndInstallPlan9Port() {
+    cd $HOME
+    git clone https://github.com/9fans/plan9port
+    cd plan9port
+    if test ./INSTALL ; then tail -2 install.log | sed 's/^\s\+//' &gt;&gt; $HOME/.profile ; fi
+}
+
+main()
+</code></pre>
+
+<p>This is also the first entry I&rsquo;ve made with the <a href="http://man.cat-v.org/plan_9/1/sam">sam</a> editor, and I could certainly stand to read over the manual page for it again.</p>
+
 <h2>1429880922 - 20150424</h2>
 
 <p>I&rsquo;m reading about <a href="https://en.wikipedia.org/wiki/Init">init</a> very quickly.
