@@ -4,6 +4,66 @@
 This is a log of things I learn, experiment with, or think about.
 There isn't an intended audience.
 
+## 1433476141 - 20150604
+
+If attempting to compile and configure an Apple IIe / Apple IIGS emulator for demo-running purposes,
+something like the shell-script below will get things going for Linux on x86_64 processors. 
+
+h/t @DaveyPocket for mentioning demos and helping to compile and sort through the quirks of setting up the emulator.
+ 
+
+```
+
+#!/bin/sh
+
+main() {
+  installDependencies()  && \
+  getKentsEmulatedGS() && \
+  buildKentsEmulatedGS_x86-64 && \
+  getROMs() && \
+  configureKentsEmulatedGS && \
+  runEmulatorWithSound()
+} 
+
+installDependencies() {
+   sudo apt-get install -y build-essentials xorg-dev pulseaudio
+}
+
+getKentsEmulatedGS() {
+  wget http://kegs.sourceforge.net/kegs.0.91.tar.gz
+  tar xzvf kegs.0.91.tar.gz
+}
+
+buildKentsEmulatedGS_x86-64() {
+  cd kegs.0.91
+  rm vars; ln -s vars_x86linux vars
+  sed --in-place '5s/march=.*$/march=amdfam10/'
+  make
+  cd ..
+}
+
+getROMs() {
+  wget http://google-for-apple-ii-gs-rom_images.za/ftp.apple.asimov.net/emulators/rom_images/appleiigs_rom01.zip
+  unzip appleiigs_rom01.zip 
+  cp XGS.ROM ROM
+  wget http://www.ninjaforce.com/downloads/NFCDemoDrive.zip
+  unzip NFCDemoDrive.zip
+}
+
+configureKentsEmulatedGS() {
+  sed --in-place '9s/^s7d1 = .*$/s7d1 = NFCDemoDrive.2mg/
+}
+
+runEmulatorWithSound() {
+  padsp ./xkegs
+}
+
+runEmulatorWithoutSound() {
+  ./xkegs --audio 0
+}
+
+```
+
 ## 1432908829 - 20150529
 
 I've compiled plan9port again recently, and  ran into some errors caused by missing X libraries, both in Ubuntu and Debian. 
