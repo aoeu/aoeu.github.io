@@ -4,6 +4,66 @@
 This is a log of things I learn, experiment with, or think about.
 There isn't an intended audience.
 
+## 1434415672 - 20150615
+
+While peer reviewing an article involving Git packfiles, 
+I found interesting usage of SHA-1 hash values.
+
+Git hashes a `.pack` packfile with SHA-1 and then uses the hash value for 3 things:
+
+* The hash value is as a 20-byte trailer to the `.pack` file itself for later use as a checksum.
+* The hash value is used within the file name of the `.pack` file.
+* The hash value is used within the file name of the corresponding `.idx` file.
+
+I thought the usage in filenames was interesting. 
+
+I wrote a small shell script to demonstrate it all:
+
+```
+
+#!/bin/sh
+
+main() {
+	cd $1/.git/objects/pack
+	hash_value_in_filename=`ls pack-*.pack | sed 's/pack-\(.*\).pack/\1/'`
+	hash_value_in_file=`tail -c 20 pack-*.pack | hexdump -ve '1/1 "%.2x"'`
+	hash_value_of_file=`cp pack-*.pack /tmp/$$.pack && \
+		chmod u+w /tmp/$$.pack && \
+		truncate --size=-20 /tmp/$$.pack && \
+		sha1sum /tmp/$$.pack | cut -d' ' -f1 && \
+		rm /tmp/$$.pack`
+
+	echo "File names in Git pack:"
+	if test $hash_value_of_file = $hash_value_in_filename ; then 
+		ls -1 pack-${hash_value_in_file}.*
+	fi 
+	echo "$hash_value_in_file : SHA-1 hash value within the .pack file."
+	echo "$hash_value_of_file : SHA-1 hash value of the .pack file (minus the 20 byte trailer that is the previous hash.)"
+	echo "$hash_value_in_filename : SHA-1 hash value in the filename itself."
+	cd - >/dev/null
+}
+
+exiterr() {
+	echo "usage: $0 directory_of_a_git_repository"
+	exit 1
+}
+
+
+if test $# -ne 1 ; then exiterr; fi
+
+if test ! -d $1/.git ; then
+	echo "No git repository found in \"$1\""
+	exiterr
+fi
+
+if test ! -d $1/.git/objects/pack ; then
+	echo "No pack directory found in git repostiory \"$1\", run with a different repository."
+	exiterr
+fi
+
+main $@
+```
+
 ## 1433476141 - 20150604
 
 If attempting to compile and configure an Apple IIe / Apple IIGS emulator for demo-running purposes,

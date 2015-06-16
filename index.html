@@ -14,6 +14,67 @@
 <p>This is a log of things I learn, experiment with, or think about.
 There isn&rsquo;t an intended audience.</p>
 
+<h2>1434415672 - 20150615</h2>
+
+<p>While peer reviewing an article involving Git packfiles,
+I found interesting usage of SHA-1 hash values.</p>
+
+<p>Git hashes a <code>.pack</code> packfile with SHA-1 and then uses the hash value for 3 things:</p>
+
+<ul>
+<li>The hash value is as a 20-byte trailer to the <code>.pack</code> file itself for later use as a checksum.</li>
+<li>The hash value is used within the file name of the <code>.pack</code> file.</li>
+<li>The hash value is used within the file name of the corresponding <code>.idx</code> file.</li>
+</ul>
+
+<p>I thought the usage in filenames was interesting.</p>
+
+<p>I wrote a small shell script to demonstrate it all:</p>
+
+<pre><code>
+#!/bin/sh
+
+main() {
+	cd $1/.git/objects/pack
+	hash_value_in_filename=`ls pack-*.pack | sed 's/pack-\(.*\).pack/\1/'`
+	hash_value_in_file=`tail -c 20 pack-*.pack | hexdump -ve '1/1 &quot;%.2x&quot;'`
+	hash_value_of_file=`cp pack-*.pack /tmp/$$.pack &amp;&amp; \
+		chmod u+w /tmp/$$.pack &amp;&amp; \
+		truncate --size=-20 /tmp/$$.pack &amp;&amp; \
+		sha1sum /tmp/$$.pack | cut -d' ' -f1 &amp;&amp; \
+		rm /tmp/$$.pack`
+
+	echo &quot;File names in Git pack:&quot;
+	if test $hash_value_of_file = $hash_value_in_filename ; then 
+		ls -1 pack-${hash_value_in_file}.*
+	fi 
+	echo &quot;$hash_value_in_file : SHA-1 hash value within the .pack file.&quot;
+	echo &quot;$hash_value_of_file : SHA-1 hash value of the .pack file (minus the 20 byte trailer that is the previous hash.)&quot;
+	echo &quot;$hash_value_in_filename : SHA-1 hash value in the filename itself.&quot;
+	cd - &gt;/dev/null
+}
+
+exiterr() {
+	echo &quot;usage: $0 directory_of_a_git_repository&quot;
+	exit 1
+}
+
+
+if test $# -ne 1 ; then exiterr; fi
+
+if test ! -d $1/.git ; then
+	echo &quot;No git repository found in \&quot;$1\&quot;&quot;
+	exiterr
+fi
+
+if test ! -d $1/.git/objects/pack ; then
+	echo &quot;No pack directory found in git repostiory \&quot;$1\&quot;, run with a different repository.&quot;
+	exiterr
+fi
+
+main $@
+</code></pre>
+
 <h2>1433476141 - 20150604</h2>
 
 <p>If attempting to compile and configure an Apple IIe / Apple IIGS emulator for demo-running purposes,
