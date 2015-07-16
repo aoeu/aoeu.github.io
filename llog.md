@@ -2,7 +2,34 @@
 
 ## About
 This is a log of things I learn, experiment with, or think about.
-There isn't an intended audience.
+
+## 1437014448 - 20150715
+
+I  wanted to install a gerrit server in order to do some code review for a friend, and thought an instance on a certain cloud hosting provider could be of service.
+
+I ended up realizing that I was locked out of the server instance. I had ssh access disabled for the root user, so adding my public SSH key to the provider's admin panel proved to be useless.
+
+The provider features a web-browser-based VNC console, but with some limitations. The web-browser-based console can not handle copy-paste commands from the user's machine. I wasn't about to type my entire public RSA key out by hand.  A workaround was needed: 
+
+
+- Reset root password on the remote server instance via an email authentication tool on the provider's host administration web-application.
+- Log in as the root user on the remote server instance via the provider's web-browser-based VNC console
+- Change root password (as forced by the remote server instance)
+- `# su - otheruser`
+- `$ mkdir ~/.ssh`
+- `$ chmod 700 ~/.ssh`
+- On my local machine: `$ cat ~/.ssh/id_rsa.pub`
+- Paste the contents of `id_rsa.pub` into a Github gist
+- Copy the raw URL of the Github gist
+- Paste the raw URL of the Github gist into http://tiny.cc`s web interface
+- Give the tiny.cc URL a reasonable name to type, like http://tiny.cc/publickeyfoo
+- In the hosting provider's web-browser-based VNC console: `$ wget -o ~/.ssh/authorized_keys http://tiny.cc/publickeyfoo`
+- `$ chmod 600 ~/.ssh/authorized_keys`
+- `$ exit` to return to the root user
+- `# sudo echo "PermitRootLogin no" >> /etc/ssh/ssh_config`
+- On my local machine, `$ ssh otheruser@example.com` (where example.com is the hostname for my remote server instance at the hosting provider).
+
+... And back in action. This would have been easier if the web-browser based VNC console wasn't randomly inserting control keys or otherwise locking upwhen typing all the commands!
 
 ## 1434415672 - 20150615
 
