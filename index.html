@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <title>Hello there, stranger.</title>
-  <meta name="GENERATOR" content="Blackfriday Markdown Processor v1.1" />
+  <meta name="GENERATOR" content="Blackfriday Markdown Processor v1.5" />
   <meta charset="utf-8" />
 </head>
 <body>
@@ -12,6 +12,45 @@
 <h2>About</h2>
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
+
+<h2>1485388140 - 20170125</h2>
+
+<p>Today I learned that certain built-in shell commands, such as <code>echo</code> and <code>export</code>, <a href="http://www.grymoire.com/Unix/Sh.html#uh-14">can be validly executed on the same line</a>, without a semi-colon separating the statements.
+I found some resulting commands I tried out did not result in what I expected.</p>
+
+<pre><code>sh-3.2$ NUMS=ONE
+sh-3.2$ echo $NUMS
+ONE
+sh-3.2$ NUMS=&quot;$NUMS, TWO&quot; export NUMS
+sh-3.2$ echo $NUMS
+ONE, TWO
+sh-3.2$ NUMS=&quot;$NUMS, THREE&quot; echo $NUMS
+ONE, TWO
+sh-3.2$ NUMS=&quot;$NUMS, THREE&quot; export NUMS; echo $NUMS
+ONE, TWO, THREE
+sh-3.2$ NUMS=&quot;$NUMS, FOUR&quot; echo $NUMS; export NUMS
+ONE, TWO, THREE
+sh-3.2$ echo $NUMS
+ONE, TWO, THREE
+sh-3.2$ NUMS=&quot;$NUMS, FOUR&quot;; export NUMS
+sh-3.2$ echo $NUMS
+ONE, TWO, THREE, FOUR
+</code></pre>
+
+<p>Additionally, the PATH environment variable automatically exports when setting it to a new value within a shell script:</p>
+
+<pre><code>$ cat path.sh
+#!/bin/sh
+
+overridePATH() {
+TH='export is not required.'
+}
+
+overridePATH
+echo $PATH
+$ ./path.sh
+export is not required.
+</code></pre>
 
 <h2>1437014448 - 20150715</h2>
 
@@ -391,8 +430,8 @@ the C for ARM 6 / Arch also! That&rsquo;s a project for later.</p>
 <li>In vim, use <code>set shell=/bin/sh</code> to set a specific shell.</li>
 <li>In vim, <code>:r !./tools/timestamp</code> now creates a timestamp.</li>
 <li>I&rsquo;m ditching pandoc for &ldquo;blackfriday&rdquo;
-&ndash; blackfriday does just markdown to HTML conversion (do one thing and one thing well) vs. pandoc, which converts many formats to many others.
-&ndash; blackfriday is written in Go, so I currently will be able to edit it more easily than pandoc, which is written in Haskell.</li>
+-- blackfriday does just markdown to HTML conversion (do one thing and one thing well) vs. pandoc, which converts many formats to many others.
+-- blackfriday is written in Go, so I currently will be able to edit it more easily than pandoc, which is written in Haskell.</li>
 <li>I added a Makefile to make building a little easier.</li>
 </ul>
 
@@ -449,8 +488,8 @@ I&rsquo;ve been thinking about doing something like this for a while - I gets lo
 <ul>
 <li>Install crouton / i3</li>
 <li>Install java, newer than version 6. Try something like:
-&ndash; <code>sudo apt-get install openjdk-7-jdk'
---</code>sudo update-alternatives &ndash;config java`</li>
+-- <code>sudo apt-get install openjdk-7-jdk'
+--</code>sudo update-alternatives --config java`</li>
 <li>Download Android Studio: <a href="https://developer.android.com/sdk/installing/studio.html">https://developer.android.com/sdk/installing/studio.html</a></li>
 <li><code>tar xzvf android-studio-bundle-135.1339820-linux.tgz</code></li>
 <li><code>cd android-studio/bin; ./studio.sh</code></li>

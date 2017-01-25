@@ -3,6 +3,47 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## 1485388140 - 20170125
+
+Today I learned that certain built-in shell commands, such as `echo` and `export`, [can be validly executed on the same line](http://www.grymoire.com/Unix/Sh.html#uh-14), without a semi-colon separating the statements.
+I found some resulting commands I tried out did not result in what I expected.
+
+```
+sh-3.2$ NUMS=ONE
+sh-3.2$ echo $NUMS
+ONE
+sh-3.2$ NUMS="$NUMS, TWO" export NUMS
+sh-3.2$ echo $NUMS
+ONE, TWO
+sh-3.2$ NUMS="$NUMS, THREE" echo $NUMS
+ONE, TWO
+sh-3.2$ NUMS="$NUMS, THREE" export NUMS; echo $NUMS
+ONE, TWO, THREE
+sh-3.2$ NUMS="$NUMS, FOUR" echo $NUMS; export NUMS
+ONE, TWO, THREE
+sh-3.2$ echo $NUMS
+ONE, TWO, THREE
+sh-3.2$ NUMS="$NUMS, FOUR"; export NUMS
+sh-3.2$ echo $NUMS
+ONE, TWO, THREE, FOUR
+```
+
+Additionally, the PATH environment variable automatically exports when setting it to a new value within a shell script:
+
+```
+$ cat path.sh
+#!/bin/sh
+
+overridePATH() {
+TH='export is not required.'
+}
+
+overridePATH
+echo $PATH
+$ ./path.sh
+export is not required.
+```
+
 ## 1437014448 - 20150715
 
 I  wanted to install a gerrit server in order to do some code review for a friend, and thought an instance on a certain cloud hosting provider could be of service.
