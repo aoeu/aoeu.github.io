@@ -35,7 +35,7 @@ $ cat path.sh
 #!/bin/sh
 
 overridePATH() {
-TH='export is not required.'
+	PATH='export is not required.'
 }
 
 overridePATH
