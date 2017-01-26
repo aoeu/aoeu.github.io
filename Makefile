@@ -5,7 +5,7 @@ index.html : llog.md
 clean :
 	rm index.html
 
-publish :
+publication :
 	git push $(shell git remote | head -1) master
 
 dependencies :
