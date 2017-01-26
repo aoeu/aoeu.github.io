@@ -1,0 +1,4 @@
+#!/bin/sh
+t=`./timestamp`
+uri=`echo $t | sed 's/ - .*$//'`
+echo "## [•](index.html#$uri) $t"
