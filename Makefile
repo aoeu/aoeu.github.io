@@ -6,7 +6,7 @@ clean :
 	rm index.html
 
 publish :
-	git push origin master
+	git push $(shell git remote | head -1) master
 
 dependencies :
 	go get github.com/russross/blackfriday-tool
