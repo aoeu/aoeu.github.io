@@ -3,6 +3,58 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [•](index.html#1485561815) 1485561815 - 20170127
+
+At the moment, certain computers have USB-C ports while many Android devices do not.  
+In attempts to not carry around [USB-C](https://en.wikipedia.org/wiki/USB-C) to [USB-Micro-B ](https://en.wikipedia.org/wiki/USB#Mini_and_micro_connectors) converters, I thought that the [Android Debug Bridge](https://en.wikipedia.org/wiki/Android_software_development#ADB) tool might be a practical replacement when run in a [wireless mode](https://developer.android.com/studio/command-line/adb.html#wireless) that utilizes TCP/IP.  
+
+I was wrong.  
+
+The dance to boostrasp a computer to use Android Debug Bridge to communicate wirelessly to an Android device (starting out connected via a USB cable, but unplugged after) seemed straight-ahead enough.  
+I found that arbitrary pauses in between `adb` commands were required in order to allow the Android Debug Bridge server to restart or reconfigure:
+
+```
+#!/bin/sh
+adb usb && \
+sleep 2 && \
+test `adb devices | wc -l` -gt 1 && \
+TCPIP_PORT=5555 && \
+sleep 2 && \
+adb tcpip $TCPIP_PORT && \
+sleep 2 && \
+DEVICE_IP=$(adb shell ip -f inet addr show wlan0 | grep inet | sed 's/^.*\([0-9]\{3\}\.[0-9]\{3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\)\/24.*$/\1/')  && \
+adb connect $DEVICE_IP:$TCPIP_PORT
+```
+
+I then found that transferring a 21 megabyte file proved to be relatiely slow:
+
+```
+$ time adb install -r molasses.apk
+[100%] /data/local/tmp/molasses.apk
+    pkg: /data/local/tmp/molasses.apk
+Success
+
+real    3m40.721s
+```
+
+If doing the napkin-math correctly, that's a transfer rate of  approximately 0.763 megabits per second.  
+
+That's also an order of magnitude (11 times) slower than installing the same file over USB:
+
+```
+$ adb usb
+restarting in USB mode
+$ time adb install -r molasses.apk
+[100%] /data/local/tmp/molasses.apk
+	pkg: /data/local/tmp/molasses.apk
+Success
+
+real	0m19.989s
+```
+
+Technically, the wireless router could be part of the slow-down, but I doubt it.  
+So, why is `adb` over TCP/IP so slow?
+
 ## [•](index.html#1485388140) 1485388140 - 20170125
 
 Today I learned that certain built-in shell commands, such as `echo` and `export`, [can be validly executed on the same line](http://www.grymoire.com/Unix/Sh.html#uh-14), without a semi-colon separating the statements.

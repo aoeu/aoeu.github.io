@@ -13,6 +13,55 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
+<h2><a href="index.html#1485561815">•</a> 1485561815 - 20170127</h2>
+
+<p>At the moment, certain computers have USB-C ports while many Android devices do not.<br />
+In attempts to not carry around <a href="https://en.wikipedia.org/wiki/USB-C">USB-C</a> to <a href="https://en.wikipedia.org/wiki/USB#Mini_and_micro_connectors">USB-Micro-B </a> converters, I thought that the <a href="https://en.wikipedia.org/wiki/Android_software_development#ADB">Android Debug Bridge</a> tool might be a practical replacement when run in a <a href="https://developer.android.com/studio/command-line/adb.html#wireless">wireless mode</a> that utilizes TCP/IP.</p>
+
+<p>I was wrong.</p>
+
+<p>The dance to boostrasp a computer to use Android Debug Bridge to communicate wirelessly to an Android device (starting out connected via a USB cable, but unplugged after) seemed straight-ahead enough.<br />
+I found that arbitrary pauses in between <code>adb</code> commands were required in order to allow the Android Debug Bridge server to restart or reconfigure:</p>
+
+<pre><code>#!/bin/sh
+adb usb &amp;&amp; \
+sleep 2 &amp;&amp; \
+test `adb devices | wc -l` -gt 1 &amp;&amp; \
+TCPIP_PORT=5555 &amp;&amp; \
+sleep 2 &amp;&amp; \
+adb tcpip $TCPIP_PORT &amp;&amp; \
+sleep 2 &amp;&amp; \
+DEVICE_IP=$(adb shell ip -f inet addr show wlan0 | grep inet | sed 's/^.*\([0-9]\{3\}\.[0-9]\{3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\)\/24.*$/\1/')  &amp;&amp; \
+adb connect $DEVICE_IP:$TCPIP_PORT
+</code></pre>
+
+<p>I then found that transferring a 21 megabyte file proved to be relatiely slow:</p>
+
+<pre><code>$ time adb install -r molasses.apk
+[100%] /data/local/tmp/molasses.apk
+    pkg: /data/local/tmp/molasses.apk
+Success
+
+real    3m40.721s
+</code></pre>
+
+<p>If doing the napkin-math correctly, that&rsquo;s a transfer rate of  approximately 0.763 megabits per second.</p>
+
+<p>That&rsquo;s also an order of magnitude (11 times) slower than installing the same file over USB:</p>
+
+<pre><code>$ adb usb
+restarting in USB mode
+$ time adb install -r molasses.apk
+[100%] /data/local/tmp/molasses.apk
+	pkg: /data/local/tmp/molasses.apk
+Success
+
+real	0m19.989s
+</code></pre>
+
+<p>Technically, the wireless router could be part of the slow-down, but I doubt it.<br />
+So, why is <code>adb</code> over TCP/IP so slow?</p>
+
 <h2><a href="index.html#1485388140">•</a> 1485388140 - 20170125</h2>
 
 <p>Today I learned that certain built-in shell commands, such as <code>echo</code> and <code>export</code>, <a href="http://www.grymoire.com/Unix/Sh.html#uh-14">can be validly executed on the same line</a>, without a semi-colon separating the statements.
