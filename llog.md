@@ -3,6 +3,25 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [•](index.html#1486426704) 1486426704 - 20170206
+
+Debugging animations within an Android app can be tricky, especially if there is a sufficient "callback casserole" of asynchronous server requests, click listeners, and animation listeners all swirled together.  
+
+A trick that helped me debug how and when callback methods were getting called was just a one-liner log statement:
+
+```
+// Placed in various click-listener callbacks, asyncronous server request callbacks, and animation listener callbacks:
+android.util.Log.e("aoeu", Log.getStackTraceForString(new Exception));
+```
+
+Monitored with:
+```
+adb logcat '*:E' | grep aoeu
+```
+
+While logging stack-traces doesn't provide knowledge of what data was being input into methods, it was extremely useful to see how, in real-time, various callbacks were calling eachother without putting log statements in each method or stopping the world with a debugger.
+
+
 ## [•](index.html#1485561815) 1485561815 - 20170127
 
 At the moment, certain computers have USB-C ports while many Android devices do not.  
