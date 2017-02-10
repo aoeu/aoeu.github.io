@@ -3,6 +3,38 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+
+## [•](index.html#1486765292) 1486765292 - 20170210
+
+Searching for edits of a file, by name, through a range of git commits:
+
+```
+#!/bin/sh
+for arg in "$@"
+do
+case $arg in
+	-for=*)
+		filename="${arg#*=}"
+	;;
+	-from=*)
+		startSHA="${arg#*=}"
+	;;
+	-to=*)
+		endSHA="${arg#*=}"
+	;;
+esac
+done
+test '' = "$endSHA" && endSHA="HEAD"
+
+
+for sha in `git log --pretty="%H" $startSHA..$endSHA` ; do git diff-tree --no-commit-id --name-only -r $sha | grep "$filename" && echo "$filename was editied in commit $sha"; done
+```
+
+Usage:
+```
+search-git-for-edits -of='some_image_file.png' -from=a93b5f746bdb1e0054dbb7e37fdfcd84a73d7f85 -to=HEAD
+```
+
 ## [•](index.html#1486426704) 1486426704 - 20170206
 
 Debugging animations within an Android app can be tricky, especially if there is a sufficient "callback casserole" of asynchronous server requests, click listeners, and animation listeners all swirled together.  
