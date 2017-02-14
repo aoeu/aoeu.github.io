@@ -3,6 +3,37 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [•](index.html#1487031425) 1487031425 - 20170213
+
+[Heimdall](https://github.com/Benjamin-Dobell/Heimdall) has instructions to build with dependent libraries installed via [homebrew](https://brew.sh).
+Heimdall can also be built with the the dependent libraries installed via [macports](https://www.macports.org), but with some [kludging](https://en.wikipedia.org/wiki/Kludge).
+
+Assuming that macports installs libraries under '/opt/local/lib' (e.g. the default for macports):
+
+```
+$ git clone git@github.com:Benjamin-Dobell/Heimdall.git
+$ cd Heimdall
+$ tail OSX/README.txt | grep 'brew install' | sed 's/brew/port/g'
+$ sudo port install libusb qt5 cmake
+$ mkdir build
+$ cd build
+$ cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5Widgets_DIR=`find /opt/local/lib -name 'Qt5Widgets'` ..
+$ echo "A linker error will happen during `make` that looks like this:"
+$ cat << EOF
+[ 53%] Linking CXX executable ../bin/heimdall
+ld: library not found for -lusb-1.0
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make[2]: *** [bin/heimdall] Error 1
+make[1]: *** [heimdall/CMakeFiles/heimdall.dir/all] Error 2
+make: *** [all] Error 2
+EOF
+$ make
+$ cat heimdall/CMakeFiles/heimdall.dir/link.txt | sed 's/\(-lusb-1.0\)/-L\/opt\/local\/lib \1/'
+$ cd heimdall && /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -std=gnu++11 -O3 -DNDEBUG -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/heimdall.dir/source/Arguments.cpp.o CMakeFiles/heimdall.dir/source/BridgeManager.cpp.o CMakeFiles/heimdall.dir/source/ClosePcScreenAction.cpp.o CMakeFiles/heimdall.dir/source/DetectAction.cpp.o CMakeFiles/heimdall.dir/source/DownloadPitAction.cpp.o CMakeFiles/heimdall.dir/source/FlashAction.cpp.o CMakeFiles/heimdall.dir/source/HelpAction.cpp.o CMakeFiles/heimdall.dir/source/InfoAction.cpp.o CMakeFiles/heimdall.dir/source/Interface.cpp.o CMakeFiles/heimdall.dir/source/main.cpp.o CMakeFiles/heimdall.dir/source/PrintPitAction.cpp.o CMakeFiles/heimdall.dir/source/Utility.cpp.o CMakeFiles/heimdall.dir/source/VersionAction.cpp.o  -o ../bin/heimdall  ../libpit/libpit.a -L/opt/local/lib -lusb-1.0
+$ ../bin/heimdall version
+$ echo "Thus concludes the kludge." && \
+cp ../bin/heimdall $SOME_DIRECTORY_IN_YOUR_PATH_WHERE_YOU_KEEP_BINARIES/heimdall
+```
 
 ## [•](index.html#1486765292) 1486765292 - 20170210
 

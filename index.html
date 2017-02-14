@@ -13,6 +13,37 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
+<h2><a href="index.html#1487031425">•</a> 1487031425 - 20170213</h2>
+
+<p><a href="https://github.com/Benjamin-Dobell/Heimdall">Heimdall</a> has instructions to build with dependent libraries installed via <a href="https://brew.sh">homebrew</a>.
+Heimdall can also be built with the the dependent libraries installed via <a href="https://www.macports.org">macports</a>, but with some <a href="https://en.wikipedia.org/wiki/Kludge">kludging</a>.</p>
+
+<p>Assuming that macports installs libraries under &lsquo;/opt/local/lib&rsquo; (e.g. the default for macports):</p>
+
+<pre><code>$ git clone git@github.com:Benjamin-Dobell/Heimdall.git
+$ cd Heimdall
+$ tail OSX/README.txt | grep 'brew install' | sed 's/brew/port/g'
+$ sudo port install libusb qt5 cmake
+$ mkdir build
+$ cd build
+$ cmake -G &quot;Unix Makefiles&quot; -DCMAKE_BUILD_TYPE=Release -DQt5Widgets_DIR=`find /opt/local/lib -name 'Qt5Widgets'` ..
+$ echo &quot;A linker error will happen during `make` that looks like this:&quot;
+$ cat &lt;&lt; EOF
+[ 53%] Linking CXX executable ../bin/heimdall
+ld: library not found for -lusb-1.0
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make[2]: *** [bin/heimdall] Error 1
+make[1]: *** [heimdall/CMakeFiles/heimdall.dir/all] Error 2
+make: *** [all] Error 2
+EOF
+$ make
+$ cat heimdall/CMakeFiles/heimdall.dir/link.txt | sed 's/\(-lusb-1.0\)/-L\/opt\/local\/lib \1/'
+$ cd heimdall &amp;&amp; /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -std=gnu++11 -O3 -DNDEBUG -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/heimdall.dir/source/Arguments.cpp.o CMakeFiles/heimdall.dir/source/BridgeManager.cpp.o CMakeFiles/heimdall.dir/source/ClosePcScreenAction.cpp.o CMakeFiles/heimdall.dir/source/DetectAction.cpp.o CMakeFiles/heimdall.dir/source/DownloadPitAction.cpp.o CMakeFiles/heimdall.dir/source/FlashAction.cpp.o CMakeFiles/heimdall.dir/source/HelpAction.cpp.o CMakeFiles/heimdall.dir/source/InfoAction.cpp.o CMakeFiles/heimdall.dir/source/Interface.cpp.o CMakeFiles/heimdall.dir/source/main.cpp.o CMakeFiles/heimdall.dir/source/PrintPitAction.cpp.o CMakeFiles/heimdall.dir/source/Utility.cpp.o CMakeFiles/heimdall.dir/source/VersionAction.cpp.o  -o ../bin/heimdall  ../libpit/libpit.a -L/opt/local/lib -lusb-1.0
+$ ../bin/heimdall version
+$ echo &quot;Thus concludes the kludge.&quot; &amp;&amp; \
+cp ../bin/heimdall $SOME_DIRECTORY_IN_YOUR_PATH_WHERE_YOU_KEEP_BINARIES/heimdall
+</code></pre>
+
 <h2><a href="index.html#1486765292">•</a> 1486765292 - 20170210</h2>
 
 <p>Searching for edits of a file, by name, through a range of git commits:</p>
