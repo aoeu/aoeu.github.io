@@ -3,6 +3,11 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+
+## [•](index.html#1496155760) 1496155760 - 20170530
+
+I recently rediscovered [this helpful and entertaining flow-chart diagram, titled *git pretty*,](http://justinhileman.info/article/git-pretty/) that starts with: "So, you have a mess on your hands."
+
 ## [•](index.html#1487031425) 1487031425 - 20170213
 
 [Heimdall](https://github.com/Benjamin-Dobell/Heimdall) has instructions to build with dependent libraries installed via [homebrew](https://brew.sh).
