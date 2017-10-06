@@ -2,4 +2,4 @@
 repoRoot=`git rev-parse --show-toplevel`
 t=`$repoRoot/tools/timestamp`
 uri=`echo $t | sed 's/ - .*$//'`
-echo "## [•](index.html#$uri) $t"
+echo "## [🔖](index.html#$uri) $t"

@@ -13,11 +13,11 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
-<h2><a href="index.html#1496155760">•</a> 1496155760 - 20170530</h2>
+<h2 id="1496155760"><a href="index.html#1496155760">🔖</a> 1496155760 - 20170530</h2>
 
 <p>I recently rediscovered <a href="http://justinhileman.info/article/git-pretty/">this helpful and entertaining flow-chart diagram, titled <em>git pretty</em>,</a> that starts with: &ldquo;So, you have a mess on your hands.&rdquo;</p>
 
-<h2><a href="index.html#1487031425">•</a> 1487031425 - 20170213</h2>
+<h2 id="1487031425"><a href="index.html#1487031425">🔖</a> 1487031425 - 20170213</h2>
 
 <p><a href="https://github.com/Benjamin-Dobell/Heimdall">Heimdall</a> has instructions to build with dependent libraries installed via <a href="https://brew.sh">homebrew</a>.
 Heimdall can also be built with the the dependent libraries installed via <a href="https://www.macports.org">macports</a>, but with some <a href="https://en.wikipedia.org/wiki/Kludge">kludging</a>.</p>
@@ -48,7 +48,7 @@ $ echo &quot;Thus concludes the kludge.&quot; &amp;&amp; \
 cp ../bin/heimdall $SOME_DIRECTORY_IN_YOUR_PATH_WHERE_YOU_KEEP_BINARIES/heimdall
 </code></pre>
 
-<h2><a href="index.html#1486765292">•</a> 1486765292 - 20170210</h2>
+<h2 id="1486765292"><a href="index.html#1486765292">🔖</a> 1486765292 - 20170210</h2>
 
 <p>Searching for edits of a file, by name, through a range of git commits:</p>
 
@@ -78,7 +78,7 @@ for sha in `git log --pretty=&quot;%H&quot; $startSHA..$endSHA` ; do git diff-tr
 <pre><code>search-git-for-edits -of='some_image_file.png' -from=a93b5f746bdb1e0054dbb7e37fdfcd84a73d7f85 -to=HEAD
 </code></pre>
 
-<h2><a href="index.html#1486426704">•</a> 1486426704 - 20170206</h2>
+<h2 id="1486426704"><a href="index.html#1486426704">🔖</a> 1486426704 - 20170206</h2>
 
 <p>Debugging animations within an Android app can be tricky, especially if there is a sufficient &ldquo;callback casserole&rdquo; of asynchronous server requests, click listeners, and animation listeners all swirled together.</p>
 
@@ -95,7 +95,7 @@ android.util.Log.e(&quot;aoeu&quot;, Log.getStackTraceForString(new Exception));
 
 <p>While logging stack-traces doesn&rsquo;t provide knowledge of what data was being input into methods, it was extremely useful to see how, in real-time, various callbacks were calling eachother without putting log statements in each method or stopping the world with a debugger.</p>
 
-<h2><a href="index.html#1485561815">•</a> 1485561815 - 20170127</h2>
+<h2 id="1485561815"><a href="index.html#1485561815">🔖</a> 1485561815 - 20170127</h2>
 
 <p>At the moment, certain computers have USB-C ports while many Android devices do not.<br />
 In attempts to not carry around <a href="https://en.wikipedia.org/wiki/USB-C">USB-C</a> to <a href="https://en.wikipedia.org/wiki/USB#Mini_and_micro_connectors">USB-Micro-B </a> converters, I thought that the <a href="https://en.wikipedia.org/wiki/Android_software_development#ADB">Android Debug Bridge</a> tool might be a practical replacement when run in a <a href="https://developer.android.com/studio/command-line/adb.html#wireless">wireless mode</a> that utilizes TCP/IP.</p>
@@ -144,7 +144,7 @@ real	0m19.989s
 <p>Technically, the wireless router could be part of the slow-down, but I doubt it.<br />
 So, why is <code>adb</code> over TCP/IP so slow?</p>
 
-<h2><a href="index.html#1485388140">•</a> 1485388140 - 20170125</h2>
+<h2 id="1485388140"><a href="index.html#1485388140">🔖</a> 1485388140 - 20170125</h2>
 
 <p>Today I learned that certain built-in shell commands, such as <code>echo</code> and <code>export</code>, <a href="http://www.grymoire.com/Unix/Sh.html#uh-14">can be validly executed on the same line</a>, without a semi-colon separating the statements.
 I found some resulting commands I tried out did not result in what I expected.</p>
@@ -183,7 +183,7 @@ $ ./path.sh
 export is not required.
 </code></pre>
 
-<h2><a href="index.html#1437014448">•</a> 1437014448 - 20150715</h2>
+<h2 id="1437014448"><a href="index.html#1437014448">🔖</a> 1437014448 - 20150715</h2>
 
 <p>I  wanted to install a gerrit server in order to do some code review for a friend, and thought an instance on a certain cloud hosting provider could be of service.</p>
 
@@ -212,7 +212,7 @@ export is not required.
 
 <p>&hellip; And back in action. This would have been easier if the web-browser based VNC console wasn&rsquo;t randomly inserting control keys or otherwise locking upwhen typing all the commands!</p>
 
-<h2><a href="index.html#1434415672">•</a> 1434415672 - 20150615</h2>
+<h2 id="1434415672"><a href="index.html#1434415672">🔖</a> 1434415672 - 20150615</h2>
 
 <p>While peer reviewing an article involving Git packfiles,
 I found interesting usage of SHA-1 hash values.</p>
@@ -273,7 +273,7 @@ fi
 main $@
 </code></pre>
 
-<h2><a href="index.html#1433476141">•</a> 1433476141 - 20150604</h2>
+<h2 id="1433476141"><a href="index.html#1433476141">🔖</a> 1433476141 - 20150604</h2>
 
 <p>If attempting to compile and configure an Apple IIe / Apple IIGS emulator for demo-running purposes,
 something like the shell-script below will get things going for Linux on x86_64 processors.</p>
@@ -331,7 +331,7 @@ runEmulatorWithoutSound() {
 
 </code></pre>
 
-<h2><a href="index.html#1432908829">•</a> 1432908829 - 20150529</h2>
+<h2 id="1432908829"><a href="index.html#1432908829">🔖</a> 1432908829 - 20150529</h2>
 
 <p>I&rsquo;ve compiled plan9port again recently, and  ran into some errors caused by missing X libraries, both in Ubuntu and Debian.</p>
 
@@ -374,7 +374,7 @@ main()
 
 <p>This is also the first entry I&rsquo;ve made with the <a href="http://man.cat-v.org/plan_9/1/sam">sam</a> editor, and I could certainly stand to read over the manual page for it again.</p>
 
-<h2><a href="index.html#1429880922">•</a> 1429880922 - 20150424</h2>
+<h2 id="1429880922"><a href="index.html#1429880922">🔖</a> 1429880922 - 20150424</h2>
 
 <p>I&rsquo;m reading about <a href="https://en.wikipedia.org/wiki/Init">init</a> very quickly.
 It is the first process started at boot of a Un*x system, and runs
@@ -393,7 +393,7 @@ It is the first process started at boot of a Un*x system, and runs
 <p>It seems like a Bad Thing that there is lots of stuff that each do very different things,
  all under one name, or at a minimum, harder to understand and communicate about.</p>
 
-<h2><a href="index.html#1429620177">•</a> 1429620177 - 20150421</h2>
+<h2 id="1429620177"><a href="index.html#1429620177">🔖</a> 1429620177 - 20150421</h2>
 
 <p>I spent a lot of the weekend resurrecting some older d3 code and building this thing:</p>
 
@@ -407,7 +407,7 @@ d3 makes more sense than it used to, despite I haven&rsquo;t looked at it at all
 
 <p>It was suggested to add a slider, which I think is a good idea.</p>
 
-<h2><a href="index.html#1428886299">•</a> 1428886299 - 20150412</h2>
+<h2 id="1428886299"><a href="index.html#1428886299">🔖</a> 1428886299 - 20150412</h2>
 
 <p>I&rsquo;m pulling some data sources I&rsquo;ll transform later for a project.
 I&rsquo;m naming target directories after <em>filenames</em> and paths from the source URIs.
@@ -419,7 +419,7 @@ zip file. The contents of the directory are the extracted contents of the source
 However, this feels like it is being clever, and not clear.
 I also wonder what ill-affects it would have on an unsuspecting shell script.</p>
 
-<h2><a href="index.html#1428778652">•</a> 1428778652 - 20150411</h2>
+<h2 id="1428778652"><a href="index.html#1428778652">🔖</a> 1428778652 - 20150411</h2>
 
 <p>Why is <code>origin</code> the idiomatic name for a remote repository in
  most (if not all) of the git workflows that I&rsquo;ve seen?
@@ -432,7 +432,7 @@ I also wonder what ill-affects it would have on an unsuspecting shell script.</p
  <code>some-repo-alex-pulls-from</code>?
  Why not push to all those remotes simultaneously, instead of one?</p>
 
-<h2><a href="index.html#1428707143">•</a> 1428707143 - 20150410</h2>
+<h2 id="1428707143"><a href="index.html#1428707143">🔖</a> 1428707143 - 20150410</h2>
 
 <p>I resurrected some years-old code based in d3, which has resulted
 in pursuit of time-series data in a couple specific domains.</p>
@@ -477,7 +477,7 @@ constants. There&rsquo;s not really a goal for the library other than to
 document what I&rsquo;m learning as I go, and maybe provide usage for someone
 else since it is open source.</p>
 
-<h2><a href="index.html#1428497189">•</a> 1428497189 - 20150408</h2>
+<h2 id="1428497189"><a href="index.html#1428497189">🔖</a> 1428497189 - 20150408</h2>
 
 <p>I accidentally filled up my Chromebook hard drive pulling down docker
 (with the intention of trying out the golang mobile stuff for android).
@@ -500,7 +500,7 @@ Chrome OS itself will not recognize that drive, but that might be a feature.</p>
 <p>ext4 is the reasonable choice - it is supported out-of-the-box on
 any linux distro I can think of (and therefore is present on live-boot images).</p>
 
-<h2><a href="index.html#1428410883">•</a> 1428410883 - 20150407</h2>
+<h2 id="1428410883"><a href="index.html#1428410883">🔖</a> 1428410883 - 20150407</h2>
 
 <p>Over the weekend, I wrote a simple HTTP request header and body
 &ldquo;echoer&rdquo; in golang. I went through a couple refactors thanks
@@ -519,7 +519,7 @@ is wrong, or maybe my usage is wrong, or maybe there really is a bug
 and this function should check for zero values and provide defaults
 based on what it does next.</p>
 
-<h2><a href="index.html#1428025541">•</a> 1428025541 - 20150402</h2>
+<h2 id="1428025541"><a href="index.html#1428025541">🔖</a> 1428025541 - 20150402</h2>
 
 <p>Today, I learned some security things over lunch with someone.
 They were nice enough to answer a bunch of questions I had about
@@ -542,7 +542,7 @@ That made me feel productive, and I can imagine what the language
 must look like if you&rsquo;re coming from python and not C / C++/ J*va.
 It is nice to help dispell some of the things that confused me, too.</p>
 
-<h2><a href="index.html#1427983169">•</a> 1427983169 - 20150402</h2>
+<h2 id="1427983169"><a href="index.html#1427983169">🔖</a> 1427983169 - 20150402</h2>
 
 <p>I fell asleep while pulling down GCC on Arch on the Pi, but
 I was able to successfully compile a program using portmidi on the Pi
@@ -553,7 +553,7 @@ from a debian instance. I recompiled Go 1.5 with CGO enabled,
 but I forgot that I also need some mechanism to cross compile
 the C for ARM 6 / Arch also! That&rsquo;s a project for later.</p>
 
-<h2><a href="index.html#1427944190">•</a> 1427944190 - 20150401</h2>
+<h2 id="1427944190"><a href="index.html#1427944190">🔖</a> 1427944190 - 20150401</h2>
 
 <p>I&rsquo;ve learned and tweaked a few things.</p>
 
@@ -580,7 +580,7 @@ and enhancements merged into
 The result is pretty nice to use from <code>w3m</code> since the tables and
 and everything get rendered correctly now.</p>
 
-<h2><a href="index.html#1427927658">•</a> 1427927658 - 20150401</h2>
+<h2 id="1427927658"><a href="index.html#1427927658">🔖</a> 1427927658 - 20150401</h2>
 
 <p>I moved the markdown file from the llog repository into a github pages repostiory.<br />
 I&rsquo;ve been thinking about doing something like this for a while - I gets lots of ideas of things to jot down and write, but I&rsquo;d like the simplest possible mechanisms to author and publish.</p>
@@ -604,7 +604,7 @@ I&rsquo;ve been thinking about doing something like this for a while - I gets lo
 
 <p>I&rsquo;d rather get something even simpler in place, but this setup will do for now.</p>
 
-<h2><a href="index.html#1421676983">•</a> 1421676983 - 20150119</h2>
+<h2 id="1421676983"><a href="index.html#1421676983">🔖</a> 1421676983 - 20150119</h2>
 
 <p>An idiom for logging to Standard Error and exiting with error status in golang:
 - <code>log.Fatal(&quot;an error explanation&quot;)</code> will log to standard error and exit.

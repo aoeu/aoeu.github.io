@@ -1,9 +1,10 @@
 html : llog.md
 	blackfriday-tool -page llog.md > index.html
+	sed -i '' -e 's/<h2>\(.*index.html#\([0-9]\{10\}\)\)/<h2 id="\2">\1/g' index.html
 	test $(shell uname) = Darwin && open index.html || lynx index.html
 
 entrytitles:
-	sed -i '' 's/^## \([0-9]\{10\}\) - /## [•](index.html#\1) \1 - /' llog.md
+	sed -i '' 's/^## \([0-9]\{10\}\) - /## [📑](index.html#\1) \1 - /' llog.md
 
 clean :
 	rm index.html

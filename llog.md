@@ -4,11 +4,11 @@
 This is a log of things I learn, experiment with, or think about.
 
 
-## [•](index.html#1496155760) 1496155760 - 20170530
+## [🔖](index.html#1496155760) 1496155760 - 20170530
 
 I recently rediscovered [this helpful and entertaining flow-chart diagram, titled *git pretty*,](http://justinhileman.info/article/git-pretty/) that starts with: "So, you have a mess on your hands."
 
-## [•](index.html#1487031425) 1487031425 - 20170213
+## [🔖](index.html#1487031425) 1487031425 - 20170213
 
 [Heimdall](https://github.com/Benjamin-Dobell/Heimdall) has instructions to build with dependent libraries installed via [homebrew](https://brew.sh).
 Heimdall can also be built with the the dependent libraries installed via [macports](https://www.macports.org), but with some [kludging](https://en.wikipedia.org/wiki/Kludge).
@@ -40,7 +40,7 @@ $ echo "Thus concludes the kludge." && \
 cp ../bin/heimdall $SOME_DIRECTORY_IN_YOUR_PATH_WHERE_YOU_KEEP_BINARIES/heimdall
 ```
 
-## [•](index.html#1486765292) 1486765292 - 20170210
+## [🔖](index.html#1486765292) 1486765292 - 20170210
 
 Searching for edits of a file, by name, through a range of git commits:
 
@@ -71,7 +71,7 @@ Usage:
 search-git-for-edits -of='some_image_file.png' -from=a93b5f746bdb1e0054dbb7e37fdfcd84a73d7f85 -to=HEAD
 ```
 
-## [•](index.html#1486426704) 1486426704 - 20170206
+## [🔖](index.html#1486426704) 1486426704 - 20170206
 
 Debugging animations within an Android app can be tricky, especially if there is a sufficient "callback casserole" of asynchronous server requests, click listeners, and animation listeners all swirled together.  
 
@@ -90,7 +90,7 @@ adb logcat '*:E' | grep aoeu
 While logging stack-traces doesn't provide knowledge of what data was being input into methods, it was extremely useful to see how, in real-time, various callbacks were calling eachother without putting log statements in each method or stopping the world with a debugger.
 
 
-## [•](index.html#1485561815) 1485561815 - 20170127
+## [🔖](index.html#1485561815) 1485561815 - 20170127
 
 At the moment, certain computers have USB-C ports while many Android devices do not.  
 In attempts to not carry around [USB-C](https://en.wikipedia.org/wiki/USB-C) to [USB-Micro-B ](https://en.wikipedia.org/wiki/USB#Mini_and_micro_connectors) converters, I thought that the [Android Debug Bridge](https://en.wikipedia.org/wiki/Android_software_development#ADB) tool might be a practical replacement when run in a [wireless mode](https://developer.android.com/studio/command-line/adb.html#wireless) that utilizes TCP/IP.  
@@ -142,7 +142,7 @@ real	0m19.989s
 Technically, the wireless router could be part of the slow-down, but I doubt it.  
 So, why is `adb` over TCP/IP so slow?
 
-## [•](index.html#1485388140) 1485388140 - 20170125
+## [🔖](index.html#1485388140) 1485388140 - 20170125
 
 Today I learned that certain built-in shell commands, such as `echo` and `export`, [can be validly executed on the same line](http://www.grymoire.com/Unix/Sh.html#uh-14), without a semi-colon separating the statements.
 I found some resulting commands I tried out did not result in what I expected.
@@ -183,7 +183,7 @@ $ ./path.sh
 export is not required.
 ```
 
-## [•](index.html#1437014448) 1437014448 - 20150715
+## [🔖](index.html#1437014448) 1437014448 - 20150715
 
 I  wanted to install a gerrit server in order to do some code review for a friend, and thought an instance on a certain cloud hosting provider could be of service.
 
@@ -211,7 +211,7 @@ The provider features a web-browser-based VNC console, but with some limitations
 
 ... And back in action. This would have been easier if the web-browser based VNC console wasn't randomly inserting control keys or otherwise locking upwhen typing all the commands!
 
-## [•](index.html#1434415672) 1434415672 - 20150615
+## [🔖](index.html#1434415672) 1434415672 - 20150615
 
 While peer reviewing an article involving Git packfiles, 
 I found interesting usage of SHA-1 hash values.
@@ -271,7 +271,7 @@ fi
 main $@
 ```
 
-## [•](index.html#1433476141) 1433476141 - 20150604
+## [🔖](index.html#1433476141) 1433476141 - 20150604
 
 If attempting to compile and configure an Apple IIe / Apple IIGS emulator for demo-running purposes,
 something like the shell-script below will get things going for Linux on x86_64 processors. 
@@ -331,7 +331,7 @@ runEmulatorWithoutSound() {
 
 ```
 
-## [•](index.html#1432908829) 1432908829 - 20150529
+## [🔖](index.html#1432908829) 1432908829 - 20150529
 
 I've compiled plan9port again recently, and  ran into some errors caused by missing X libraries, both in Ubuntu and Debian. 
 
@@ -374,7 +374,7 @@ main()
 ```
 
 This is also the first entry I've made with the [sam](http://man.cat-v.org/plan_9/1/sam) editor, and I could certainly stand to read over the manual page for it again.
-## [•](index.html#1429880922) 1429880922 - 20150424
+## [🔖](index.html#1429880922) 1429880922 - 20150424
 
 I'm reading about [init](https://en.wikipedia.org/wiki/Init) very quickly. 
 It is the first process started at boot of a Un*x system, and runs
@@ -394,7 +394,7 @@ It seems like a Bad Thing that there is lots of stuff that each do very differen
  all under one name, or at a minimum, harder to understand and communicate about.
 
 
-## [•](index.html#1429620177) 1429620177 - 20150421
+## [🔖](index.html#1429620177) 1429620177 - 20150421
 
 I spent a lot of the weekend resurrecting some older d3 code and building this thing:
 
@@ -407,7 +407,7 @@ d3 makes more sense than it used to, despite I haven't looked at it at all in th
 It was suggested to add a slider, which I think is a good idea.
 
 
-## [•](index.html#1428886299) 1428886299 - 20150412
+## [🔖](index.html#1428886299) 1428886299 - 20150412
 
 I'm pulling some data sources I'll transform later for a project.
 I'm naming target directories after *filenames* and paths from the source URIs.
@@ -421,7 +421,7 @@ I also wonder what ill-affects it would have on an unsuspecting shell script.
 
 
 
-## [•](index.html#1428778652) 1428778652 - 20150411
+## [🔖](index.html#1428778652) 1428778652 - 20150411
 
 Why is `origin` the idiomatic name for a remote repository in
  most (if not all) of the git workflows that I've seen?
@@ -435,7 +435,7 @@ Why is `origin` the idiomatic name for a remote repository in
  Why not push to all those remotes simultaneously, instead of one?
   
 
-## [•](index.html#1428707143) 1428707143 - 20150410
+## [🔖](index.html#1428707143) 1428707143 - 20150410
 
 I resurrected some years-old code based in d3, which has resulted 
 in pursuit of time-series data in a couple specific domains.
@@ -480,7 +480,7 @@ constants. There's not really a goal for the library other than to
 document what I'm learning as I go, and maybe provide usage for someone
 else since it is open source.
 
-## [•](index.html#1428497189) 1428497189 - 20150408
+## [🔖](index.html#1428497189) 1428497189 - 20150408
 
 I accidentally filled up my Chromebook hard drive pulling down docker 
 (with the intention of trying out the golang mobile stuff for android).
@@ -503,7 +503,7 @@ Chrome OS itself will not recognize that drive, but that might be a feature.
 ext4 is the reasonable choice - it is supported out-of-the-box on 
 any linux distro I can think of (and therefore is present on live-boot images).
 
-## [•](index.html#1428410883) 1428410883 - 20150407
+## [🔖](index.html#1428410883) 1428410883 - 20150407
 
 Over the weekend, I wrote a simple HTTP request header and body 
 "echoer" in golang. I went through a couple refactors thanks
@@ -522,7 +522,7 @@ is wrong, or maybe my usage is wrong, or maybe there really is a bug
 and this function should check for zero values and provide defaults
 based on what it does next. 
 
-## [•](index.html#1428025541) 1428025541 - 20150402
+## [🔖](index.html#1428025541) 1428025541 - 20150402
 
 Today, I learned some security things over lunch with someone.
 They were nice enough to answer a bunch of questions I had about 
@@ -543,7 +543,7 @@ That made me feel productive, and I can imagine what the language
 must look like if you're coming from python and not C / C++/ J*va.
 It is nice to help dispell some of the things that confused me, too.
 
-## [•](index.html#1427983169) 1427983169 - 20150402
+## [🔖](index.html#1427983169) 1427983169 - 20150402
 
 I fell asleep while pulling down GCC on Arch on the Pi, but 
 I was able to successfully compile a program using portmidi on the Pi
@@ -554,7 +554,7 @@ from a debian instance. I recompiled Go 1.5 with CGO enabled,
 but I forgot that I also need some mechanism to cross compile 
 the C for ARM 6 / Arch also! That's a project for later.
 
-## [•](index.html#1427944190) 1427944190 - 20150401
+## [🔖](index.html#1427944190) 1427944190 - 20150401
 I've learned and tweaked a few things.
 
 - In vim, use `set shell=/bin/sh` to set a specific shell.
@@ -579,7 +579,7 @@ The result is pretty nice to use from `w3m` since the tables and
 and everything get rendered correctly now.
 
 
-## [•](index.html#1427927658) 1427927658 - 20150401
+## [🔖](index.html#1427927658) 1427927658 - 20150401
 I moved the markdown file from the llog repository into a github pages repostiory.  
 I've been thinking about doing something like this for a while - I gets lots of ideas of things to jot down and write, but I'd like the simplest possible mechanisms to author and publish.  
 
@@ -600,7 +600,7 @@ All I did was:
 
 I'd rather get something even simpler in place, but this setup will do for now.
 
-## [•](index.html#1421676983) 1421676983 - 20150119
+## [🔖](index.html#1421676983) 1421676983 - 20150119
 An idiom for logging to Standard Error and exiting with error status in golang:
 - `log.Fatal("an error explanation")` will log to standard error and exit.
 - You can remove the "timestamp" prefix of the log message with `log.SetFlags(0)`
