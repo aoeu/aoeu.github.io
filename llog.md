@@ -3,6 +3,139 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1507682244) 1507682244 - 20171010
+
+I was recently at a technology conference where there was [a talk](https://chris.banes.me/dcnyc17) on Android apps, [the Android status bar](https://duckduckgo.com/?q=android+status+bar&t=ffab&iar=images&iax=1&ia=images&iai=http%3A%2F%2Ftechviral.com%2Fwp-content%2Fuploads%2F2015%2F12%2FAdd-Network-Speed-indicator-in-Android-Status-Bar.jpg), "no bezel" smartphones (like the [PH-1](http://phandroid.com/2017/07/31/essential-phone-status-bar/)), and how these things collide into a user-facing problem for some Android apps.
+
+The speaker cleary explained the "what" and the "why," but not a complete example of "how" for the solution.
+
+The catalyst of the problem is when an Android app:  
+
+* doesn't have an [app bar](https://developer.android.com/training/appbar/index.html).
+* has a background-image (xor header image), that draws some fancy stuff behind a transparent status bar, and fills up the space where the app bar would normally be.
+* has a custom app bar (made only from core widgets like LinearLayout, TextView, and ImageView, possibly due to difficulties with the API-provided [app bar](https://stackoverflow.com/search?q=app+bar+%5Bandroid%5D) / [action bar](https://stackoverflow.com/search?q=action+bar+%5Bandroid%5D) and what can go wrong with using Compat and Support libraries, but worthy of a disparate argument for simplicity).
+
+The [explicitly discouraged soultion](https://photos.app.goo.gl/qZyZ9xwKFya602xs1) is to hard-code the size of the status bar in layout files, even as an identified dimenion used across multiple layout files:
+```
+> find . -name 'dimens.xml' | xargs grep status_bar
+
+  <dimen name="status_bar_height">24dp</dimen>
+  <dimen name="app_bar_height_plus_status_bar_height">80dp</dimen>
+  <dimen name="header_photo_height_plus_status_bar_height">224dp</dimen>
+  <dimen name="negative_status_bar_height">-24dp</dimen>
+
+> # You aren't supposed to hardcode status bar values like this Android resource XML files.
+```
+The [recommended solution](https://photos.app.goo.gl/VYcHBZcUESYTTYYb2) is to obtain the status bar height at runtime and apply it to the relevant view. If you have to do that in Java, here is a complete example:
+
+```
+class TransparentStatusBarHaver extends Activity {
+
+	@Nullable View viewThatSitsBelowTheTransparentStatusBar;
+
+	public void onCreate(Bundle stuff) {
+		super.onCreate(stuff);
+		setContentView(R.layout.activity_with_transparent_status_bar);
+		viewThatSitsBelowTheTransparentStatusBar = findViewById(R.id.view_that_sits_below_transparent_status_bar);
+	}
+
+
+	// Set heights that compensate for a transparent status bar 
+	// in onPostCreate(...) instead of onCreate(...) since descendant activity classes 
+	// get a chance to call setContentView(...) in their own onCreate(...) method.
+	public void onPostCreate(Bundle stuff) {
+		super.onPostCreate(stuff);
+		if (viewThatSitsBelowTheTransparentStatusBar == null) {
+			return;
+		}
+		ViewCompat.setOnApplyWindowInsetsListener(viewThatSitsBelowTheTransparentStatusBar,
+				new android.support.v4.view.OnApplyWindowInsetsListener() {
+					@Override
+					public WindowInsetsCompat onApplyWindowInsets(
+							View view,
+							WindowInsetsCompat windowInsetsCompat) {
+						int statusBarHeightInPixels = windowInsetsCompat.getSystemWindowInsetTop();
+						int currentHeightOfViewInPixels = view.getLayoutParams().height;
+						view.getLayoutParams().height = statusBarHeightInPixels + currentHeightOfViewInPixels;
+						view.setLayoutParams(view.getLayoutParams());
+						view.setPadding(
+								view.getPaddingLeft(),
+								statusBarHeightInPixels,
+								view.getPaddingRight(),
+								view.getPaddingBottom()
+						);
+						return windowInsetsCompat;
+					}
+				}
+		);
+	}
+
+}
+```
+
+I was at the original talk, squinted through the Kotlin pseudo-code, looked up the docs myself, and wrote the above example, and it is **still** hard to understand the above code (or why it exists) at a glance.  
+So this solution gives us the "how," but then obfuscates the "why" that was so well explained in the talk.
+
+To help convey what is going on and why, I tried distilling the code by using named-methods and named-parameters to provide a little more clarity to the anonymous-classes, unexpectedly-named interfaces, and verbose Android API calls:
+
+```
+class TransparentStatusBarHaver extends Activity {
+
+	@Nullable View viewThatSitsBelowTheTransparentStatusBar;
+
+	public void onCreate(Bundle stuff) {
+		super.onCreate(stuff);
+		setContentView(R.layout.activity_with_transparent_status_bar);
+		viewThatSitsBelowTheTransparentStatusBar = findViewById(R.id.view_that_sits_below_transparent_status_bar);
+	}
+
+	@Override
+  	protected void onPostCreate(Bundle savedInstanceState) {
+    		super.onPostCreate(savedInstanceState);
+		StatusBarMeasurer.addHeightForTransparentStatusBar(viewThatSitsBelowTheTransparentStatusBar);
+	}
+}
+
+public class StatusBarMeasurer implements OnApplyWindowInsetsListener {
+
+	static public void addHeightForTransparentStatusBar(final View viewBelowStatusBar) {
+		if (viewBelowStatusBar == null) {
+			return;
+		}
+		ViewCompat.setOnApplyWindowInsetsListener(viewBelowStatusBar, new StatusBarMeasurer());
+	}
+
+	@Override
+	public WindowInsetsCompat onApplyWindowInsets(View view, WindowInsetsCompat windowInsetsCompat) {
+		onStatusBarMeasured(view, windowInsetsCompat);
+		return windowInsetsCompat;
+	}
+
+	private void onStatusBarMeasured(View viewBelowStatusBar, WindowInsetsCompat windowInsetsCompat) {
+		int statusBarHeightInPixels = windowInsetsCompat.getSystemWindowInsetTop());
+		incrementHeight(viewBelowStatusBar, statusBarHeightInPixels);
+		incrementTopPadding(viewBelowStatusBar, statusBarHeightInPixels);
+	}
+
+	public static void incrementHeight(View v, int additionalHeightInPixels) {
+		int currentHeightInPixels = v.getLayoutParams().height;
+		v.getLayoutParams().height = currentHeightInPixels + additionalHeightInPixels;
+		v.setLayoutParams(v.getLayoutParams());
+	}
+
+	public static void incrementTopPadding(View v, int additionalPaddingInPixels) {
+		v.setLayoutParams(v.getLayoutParams());
+		v.setPadding(v.getPaddingLeft(), additionalPaddingInPixels, v.getPaddingRight(), v.getPaddingBottom());
+	}
+}
+
+```
+
+That's a bit easier for me to follow, but I do wonder:
+
+* Why isn't there an Android API call that just returns the status bar height?
+* Why does the programmer have to know about WindowInsets, support libraries, and WindowInsetsCompat shim-code to implement the suggested solution?
+* Why is it so easy for programmers to get bit by Android, status bars, transparent status bar, and unexpected side-effects in the first place?
 
 ## [🔖](index.html#1496155760) 1496155760 - 20170530
 
