@@ -3,6 +3,26 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1523383234) 1523383234 - 20180410
+
+My trusty ASUS 10.1 inch Chromebook Flip has been a solid machine for writing golang code and [my command line tools](https://github.com/aoeu/gosh) on 30 minute train commute, and even DJing an entire hours-long set via crouton, XFCE, MIXXX, a FiiO USB DAC used simulatenously with the built-in audio card, and one of my MID controllers.  
+
+The screen chassis is now taped together from all the rough weather it has withstood. I thought I'd try upgrading with:  
+
+```
+$amsung 12.3" QHD Touchscreen Chromebook-Plus  
+$349.99  
+Sold by W00t, Inc.  
+Condition: Factory Reconditioned  
+Screen Size: 12.3"  
+```
+  
+I liked the USB-C ports, the stylus, the 4:3 screen ratio with really nice resolution and colors, and the all aluminum body.
+
+[I didn't like](https://twitter.com/traverser/status/982617066388770816) the "phantom input" on the touch-screen, and apparently I wasn't the only one with this problem according to [10 pages of issues on the support forums](https://us.community.samsung.com/t5/Computers/Chromebook-plus-touchscree-issue/td-p/77098/page/4).  
+
+So, back from whence it came. Holding and typing on my ASUS Flip again, it somehow feels more sturdy and nicer to type anyway, all while being more portable and cheaper. It'd just be nice to have some faster USB ports and more RAM....
+
 ## [🔖](index.html#1507682244) 1507682244 - 20171010
 
 I was recently at a technology conference where there was [a talk](https://chris.banes.me/dcnyc17) on Android apps, [the Android status bar](https://duckduckgo.com/?q=android+status+bar&t=ffab&iar=images&iax=1&ia=images&iai=http%3A%2F%2Ftechviral.com%2Fwp-content%2Fuploads%2F2015%2F12%2FAdd-Network-Speed-indicator-in-Android-Status-Bar.jpg), "no bezel" smartphones (like the [PH-1](http://phandroid.com/2017/07/31/essential-phone-status-bar/)), and how these things collide into a user-facing problem for some Android apps.
