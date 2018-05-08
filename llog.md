@@ -3,6 +3,29 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1525816236) 1525816236 - 20180508
+
+I could not install [vgo](https://research.swtch.com/vgo) as part of its [tour](https://research.swtch.com/vgo-tour), ironically because my system didn't meet the minimum version requirement of Go 1.10, and more specifically (and more ironically) because the Go 1.9 was a mere 4 days before a commit needed for `vgo`!  
+
+```
+$ go get -u golang.org/x/vgo
+
+# golang.org/x/vgo/vendor/cmd/go/internal/modfetch/gitrepo
+/opt/ir/src/golang.org/x/vgo/vendor/cmd/go/internal/modfetch/gitrepo/fetch.go:404:21: r.File[0].Modified undefined (type *zip.File has no field or method Modified)
+
+$ go version
+go version go1.9 darwin/amd64
+
+$ cd $GOROOT; git log -1 --pretty='%cd %H %s'
+Thu Aug 24 20:52:14 2017 +0000 c8aec4095e089ff6ac50d18e97c3f46561f14f48 [release-branch.go1.9] go1.9
+
+$ git checkout master
+
+$ git blame -L `egrep -n 'Modified\s+time.Time' $GOROOT/src/archive/zip/struct.go | cut -d: -f1`,+1 $GOROOT/src/archive/zip/struct.go
+6e8894d5ffc (Joe Tsai 2017-08-28 12:07:58 -0700 119)    Modified     time.Time
+```
+
+
 ## [🔖](index.html#1525813299) 1525813299 - 20180508
 
 I was able to get a tiny, tiny code change merged into [gVisor](https://github.com/google/gvisor).
