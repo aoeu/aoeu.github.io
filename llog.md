@@ -3,6 +3,15 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1525813299) 1525813299 - 20180508
+
+I was able to get a tiny, tiny code change merged into [gVisor](https://github.com/google/gvisor).
+
+Taking reading David Walsh's [article](https://davidwalsh.name/conquering-impostor-syndrome) about conquering Imposter Syndrome, I decided to try achieving a "little win."  
+
+Later the same day, I was reading documentation in the newly published [gVisor source code](https://github.com/google/gvisor) and saw a typo.  I had to use Gerrit at work for years, so after a bit of configuring I was able to create [a code review](https://gvisor-review.googlesource.com/c/gvisor/+/1820) that was later merged as a github [pull request](https://github.com/google/gvisor/commit/4394b31dbbe276440891de0d8ee66bc5209400f1).
+
+
 ## [🔖](index.html#1523383234) 1523383234 - 20180410
 
 My trusty ASUS 10.1 inch Chromebook Flip has been a solid machine for writing golang code and [my command line tools](https://github.com/aoeu/gosh) on 30 minute train commute, and even DJing an entire hours-long set via crouton, XFCE, MIXXX, a FiiO USB DAC used simulatenously with the built-in audio card, and one of my MID controllers.  
