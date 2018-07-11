@@ -3,6 +3,29 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1531345423) 1531345423 - 20180711
+
+I was able to leverage git to find the name of a branch where I could vaguely remember when I wrote a bugfix, but not exactly what the bugfix was for, nor the name of the branch.  
+
+I suddenly had a need for a bugfix I had written in the process of reviewing of someone else's code.  
+(I needed to confirm that the solution I was going to suggest in the code review did indeed actually work.)  
+
+The other person's code review was eventually closed, and I forgot about my bugfix branch, until the issue suddenly came up again, in another code review, by a different person!  
+
+All I could remember is that I had sketched out a fix for this bug before, on some branch, toward the end of 2017.  
+Fortunately, I name my branches in the format of `<github-username>.<type-of-change>.<name>`, i.e. `aoeu.bugfix.redundant-user-prompt`, so I was able to leverage `git for-each-ref` to:  
+
+* print each git branch in the repo descending by commit date (via the `--sort` flag)
+* print the name and most recent commit date of each branch the repo (via the `--format` flag)
+* filter down to branches I wrote that were bugfixes in 2017 (via the `grep` command and my branch naming scheme)
+* filter down to only the last branches committed to in late 2017 (via `head` command)
+
+
+#### Sorting all git branches descending by last commit date and printing the branch name:
+```
+git for-each-ref --sort=-committerdate refs/heads --format '%(committerdate) %(refname)' | grep aoeu.bugfix | grep 2017 | head -20
+```
+
 ## [🔖](index.html#1525816236) 1525816236 - 20180508
 
 I could not install [vgo](https://research.swtch.com/vgo) as part of its [tour](https://research.swtch.com/vgo-tour), ironically because my system didn't meet the minimum version requirement of Go 1.10, and more specifically (and more ironically) because the Go 1.9 was a mere 4 days before a commit needed for `vgo`!  
