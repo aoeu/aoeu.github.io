@@ -13,6 +13,24 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
+<h2 id="1540425237"><a href="index.html#1540425237">🔖</a> 1540425237 - 20181024</h2>
+
+<p>Today, in regular expressions, we observe how to change all of one type of questionable lambda syntax to another questionable lambda syntax:</p>
+
+<p><code>$ rg '\([a-z]+\) \-&gt; [a-z]' -l  | xargs sed -i '' -E 's/\(([a-z]+)\) -&gt; ([a-z])/\1 -&gt; \2/g'</code></p>
+
+<p>Changes text like</p>
+
+<pre><code>oneWayWouldBeBetter((foo) -&gt; callback());  
+</code></pre>
+
+<p>to</p>
+
+<pre><code>oneWayWouldBeBetter(foo -&gt; callback());  
+</code></pre>
+
+<p>for an entire project.</p>
+
 <h2 id="1540423346"><a href="index.html#1540423346">🔖</a> 1540423346 - 20181024</h2>
 
 <p>I didn&rsquo;t realize there were no less than 3 different syntax for the same semantic of declaring a lambda in Java 8 (and above)</p>

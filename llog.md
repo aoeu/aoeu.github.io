@@ -3,6 +3,22 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1540425237) 1540425237 - 20181024
+
+Today, in regular expressions, we observe how to change all of one type of questionable lambda syntax to another questionable lambda syntax:  
+
+`$ rg '\([a-z]+\) \-> [a-z]' -l  | xargs sed -i '' -E 's/\(([a-z]+)\) -> ([a-z])/\1 -> \2/g'`
+
+Changes text like  
+
+	oneWayWouldBeBetter((foo) -> callback());  
+
+to  
+
+	oneWayWouldBeBetter(foo -> callback());  
+
+for an entire project.
+
 ## [🔖](index.html#1540423346) 1540423346 - 20181024
 
 I didn't realize there were no less than 3 different syntax for the same semantic of declaring a lambda in Java 8 (and above)  
