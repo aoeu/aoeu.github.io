@@ -3,6 +3,24 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1540423346) 1540423346 - 20181024
+
+I didn't realize there were no less than 3 different syntax for the same semantic of declaring a lambda in Java 8 (and above)  
+
+`set(this::callback); // no args`   
+`set(foo -> callback()); // one arg`  
+`set((foo, bar) -> callback()); // two args`  
+
+And we can also throw in some varying ways of doing the same things:  
+
+`set(()->callback()); // no args`  
+`set((Foo f, Bar b) -> callback()); // two args`  
+
+...all as opposed to one way of doing it that handles all cases. Equally interesting as it is horrifying.  
+
+By horrifying, I mean that a major ingredient of Good software engineering is consistency, and here we have all these little possible inconsistencies baked into one language feature, each a thing to possibly trip up muscle memory when typing, or the eyes of the reader.
+
+
 ## [🔖](index.html#1531345423) 1531345423 - 20180711
 
 I was able to leverage git to find the name of a branch where I could vaguely remember when I wrote a bugfix, but not exactly what the bugfix was for, nor the name of the branch.  
