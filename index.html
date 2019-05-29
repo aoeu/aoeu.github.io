@@ -13,6 +13,43 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
+<h2 id="1559146238"><a href="index.html#1559146238">🔖</a> 1559146238 - 20190529</h2>
+
+<p>I have often heard people say that it is faster to do many similar edits to some lines of code by hand.
+Maybe they will record a squence of keys (a macro) via their text editor to help increase speed.
+I prefer to use regular expressions to make edits to existing code.</p>
+
+<p>I reason that many people could do many similar edits faster than I can by hand, but I often make mistakes
+when typing prose (and prose-like code), and then pay more time later at compile-time or run-time and have to go fix the mistakes.
+Also, a person can get a lot faster at finding and editing text via regular expressions by actually using regular expressions to find and edit the text. The speed and the ability to stream-of-conciousness type a complex regular expression correctly will never be obtained without practice.</p>
+
+<p>I&rsquo;ve even been asked to do edits like this in a programming interview in front of a real computer and editor, with the interviewer hinting at it is faster to make the edits by hand. That might be the case in one-off instances, or in an interview where it is easier to even typo a regular expression</p>
+
+<p>With all of this in mind, I really like tiny, quick, regular-expression victories. The following is one that I did today, in seconds. (This write up took many times longer.)</p>
+
+<p>Input:</p>
+
+<pre><code>	flag.StringVar(&amp;args.inputFilepath, &quot;in&quot;, &quot;&quot;, &quot;filepath to read report data from instead of SFTP download&quot;)
+	flag.StringVar(&amp;args.outputFilepath, &quot;out&quot;, &quot;&quot;, &quot;filepath to write report data to from SFTP download&quot;)
+	flag.BoolVar(&amp;args.printSummary, &quot;summarize&quot;, false, &quot;Print output from main function that may be useful for debugging&quot;)
+	flag.BoolVar(&amp;args.writeToDB, &quot;store&quot;, true, &quot;Apply found restrictions on users to database&quot;)
+	flag.BoolVar(&amp;args.ignoreUnknownUsers, &quot;dev&quot;, false, &quot;Ignore unknown users on development server&quot;)
+</code></pre>
+
+<p>Regexp (first try, no backspacing):</p>
+
+<pre><code>	Edit .s/(flag.*)Var\(&amp;args\.([a-zA-Z]+), (.*)/\2 = \1(\3/g
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>	inputFilepath = flag.String(&quot;in&quot;, &quot;&quot;, &quot;filepath to read report data from instead of SFTP download&quot;)
+	outputFilepath = flag.String(&quot;out&quot;, &quot;&quot;, &quot;filepath to write report data to from SFTP download&quot;)
+	printSummary = flag.Bool(&quot;summarize&quot;, false, &quot;Print output from main function that may be useful for debugging&quot;)
+	writeToDB = flag.Bool(&quot;store&quot;, true, &quot;Apply found restrictions on users to database&quot;)
+	ignoreUnknownUsers = flag.Bool(&quot;dev&quot;, false, &quot;Ignore unknown users on development server&quot;)
+</code></pre>
+
 <h2 id="1540425237"><a href="index.html#1540425237">🔖</a> 1540425237 - 20181024</h2>
 
 <p>Today, in regular expressions, we observe how to change all of one type of questionable lambda syntax to another questionable lambda syntax:</p>

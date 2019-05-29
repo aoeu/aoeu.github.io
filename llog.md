@@ -3,6 +3,45 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1559146238) 1559146238 - 20190529
+
+
+I have often heard people say that it is faster to do many similar edits to some lines of code by hand.
+Maybe they will record a squence of keys (a macro) via their text editor to help increase speed.
+I prefer to use regular expressions to make edits to existing code.
+
+
+I reason that many people could do many similar edits faster than I can by hand, but I often make mistakes
+when typing prose (and prose-like code), and then pay more time later at compile-time or run-time and have to go fix the mistakes.
+Also, a person can get a lot faster at finding and editing text via regular expressions by actually using regular expressions to find and edit the text. The speed and the ability to stream-of-conciousness type a complex regular expression correctly will never be obtained without practice.  
+  
+I've even been asked to do edits like this in a programming interview in front of a real computer and editor, with the interviewer hinting at it is faster to make the edits by hand. That might be the case in one-off instances, or in an interview where it is easier to even typo a regular expression
+  
+
+With all of this in mind, I really like tiny, quick, regular-expression victories. The following is one that I did today, in seconds. (This write up took many times longer.)
+
+Input:
+```
+	flag.StringVar(&args.inputFilepath, "in", "", "filepath to read report data from instead of SFTP download")
+	flag.StringVar(&args.outputFilepath, "out", "", "filepath to write report data to from SFTP download")
+	flag.BoolVar(&args.printSummary, "summarize", false, "Print output from main function that may be useful for debugging")
+	flag.BoolVar(&args.writeToDB, "store", true, "Apply found restrictions on users to database")
+	flag.BoolVar(&args.ignoreUnknownUsers, "dev", false, "Ignore unknown users on development server")
+```
+
+Regexp (first try, no backspacing):
+```
+	Edit .s/(flag.*)Var\(&args\.([a-zA-Z]+), (.*)/\2 = \1(\3/g
+```
+
+Output:
+```
+	inputFilepath = flag.String("in", "", "filepath to read report data from instead of SFTP download")
+	outputFilepath = flag.String("out", "", "filepath to write report data to from SFTP download")
+	printSummary = flag.Bool("summarize", false, "Print output from main function that may be useful for debugging")
+	writeToDB = flag.Bool("store", true, "Apply found restrictions on users to database")
+	ignoreUnknownUsers = flag.Bool("dev", false, "Ignore unknown users on development server")
+```
 ## [🔖](index.html#1540425237) 1540425237 - 20181024
 
 Today, in regular expressions, we observe how to change all of one type of questionable lambda syntax to another questionable lambda syntax:  
