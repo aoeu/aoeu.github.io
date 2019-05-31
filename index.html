@@ -13,6 +13,54 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
+<h2 id="1559320529"><a href="index.html#1559320529">🔖</a> 1559320529 - 20190531</h2>
+
+<p>Comments are lies waiting to happen, but documentation is useful.</p>
+
+<p>However, incorrect documentation can be useless, or arguably more harmful than not documentation at all.</p>
+
+<p>Consider this documentation snippet from the AWS SNS Go SDK:</p>
+
+<pre><code>// Input for Publish action.
+type PublishInput struct {
+
+	// ...
+	// This struct definition is abridged by aoeu, with prior fields omitted.
+	// ...
+
+	// Either TopicArn or EndpointArn, but not both.
+	//
+	// If you don't specify a value for the TargetArn parameter, you must specify
+	// a value for the PhoneNumber or TopicArn parameters.
+	TargetArn *string `type:&quot;string&quot;`
+
+	// The topic you want to publish to.
+	//
+	// If you don't specify a value for the TopicArn parameter, you must specify
+	// a value for the PhoneNumber or TargetArn parameters.
+	TopicArn *string `type:&quot;string&quot;`
+}
+</code></pre>
+
+<p>Either a &ldquo;TopicArn&rdquo; or an &ldquo;EndpointArn,&rdquo; but not both.</p>
+
+<p>As it turns out, &ldquo;EndpointArn&rdquo; isn&rsquo;t an actual field, and the comment probably meant to say,
+&ldquo;Either TopicArn or TargetArn must be set, but not both.&rdquo; But maybe the field sohuld be renamed
+from &ldquo;TargenArn&rdquo; to &ldquo;EndpointArn&rdquo; because the rest of the file seems to refer to that value with
+fields named &ldquo;EndpointArn.&rdquo;</p>
+
+<p>So what we have here is documentation that incorrectly names the actual field it is documenting.
+That isn&rsquo;t good, and actually led me to run around the API and file to see if I was missing something,
+only to find I was misinformed by the documentation.</p>
+
+<p>Documentation errors like this make programming harder, as does alternate solutions to the original problem,
+such as maybe using one field for ARN (and having the SDK figure out what type of ARN it is), or a different
+field used to specify what the ARN type is (let&rsquo;s say with <code>const</code>s for the types declared with <code>iota</code>)
+while simultaneously having having one field for the ARN value).
+Nevermind the total disregard to an extremely fundamental Go idiom of using consistent capitalizaton for acronyms.</p>
+
+<p>All of this in combination makes coding for AWS with Go harder than it needs to be.</p>
+
 <h2 id="1559146238"><a href="index.html#1559146238">🔖</a> 1559146238 - 20190529</h2>
 
 <p>I have often heard people say that it is faster to do many similar edits to some lines of code by hand.

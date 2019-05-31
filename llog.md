@@ -3,6 +3,56 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1559320529) 1559320529 - 20190531
+
+Comments are lies waiting to happen, but documentation is useful.
+
+However, incorrect documentation can be useless, or arguably more harmful than not documentation at all.
+
+Consider this documentation snippet from the AWS SNS Go SDK:
+
+```
+// Input for Publish action.
+type PublishInput struct {
+
+	// ...
+	// This struct definition is abridged by aoeu, with prior fields omitted.
+	// ...
+
+	// Either TopicArn or EndpointArn, but not both.
+	//
+	// If you don't specify a value for the TargetArn parameter, you must specify
+	// a value for the PhoneNumber or TopicArn parameters.
+	TargetArn *string `type:"string"`
+
+	// The topic you want to publish to.
+	//
+	// If you don't specify a value for the TopicArn parameter, you must specify
+	// a value for the PhoneNumber or TargetArn parameters.
+	TopicArn *string `type:"string"`
+}
+```
+
+Either a "TopicArn" or an "EndpointArn," but not both.
+
+As it turns out, "EndpointArn" isn't an actual field, and the comment probably meant to say,
+"Either TopicArn or TargetArn must be set, but not both." But maybe the field sohuld be renamed
+from "TargenArn" to "EndpointArn" because the rest of the file seems to refer to that value with
+fields named "EndpointArn." 
+
+So what we have here is documentation that incorrectly names the actual field it is documenting.
+That isn't good, and actually led me to run around the API and file to see if I was missing something,
+only to find I was misinformed by the documentation.
+
+Documentation errors like this make programming harder, as does alternate solutions to the original problem,
+such as maybe using one field for ARN (and having the SDK figure out what type of ARN it is), or a different
+field used to specify what the ARN type is (let's say with `const`s for the types declared with `iota`)
+while simultaneously having having one field for the ARN value).
+Nevermind the total disregard to an extremely fundamental Go idiom of using consistent capitalizaton for acronyms.
+
+All of this in combination makes coding for AWS with Go harder than it needs to be. 
+
+
 ## [🔖](index.html#1559146238) 1559146238 - 20190529
 
 
