@@ -13,6 +13,24 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
+<h2 id="1559777525"><a href="index.html#1559777525">🔖</a> 1559777525 - 20190605</h2>
+
+<h3>A Structured Query Language Story</h3>
+
+<p>A programmer used to optimize reports (&ldquo;stored-procedures&rdquo; in individual SQL files) for a finance company. A whole team of 4 used to write and maintain those SQL files and schema but were disbanded. After some years and years of random people spot-editing the SQL files without holistically understanding them or the schema, and this thing called &ldquo;algorithmic trading&rdquo; becoming more popular, the hundred or so stored-proceduces (&ldquo;sprocs&rdquo;) could not finish running overnight.  So, the programmer would get dropped in to clean up particular reports when needed, having taken a databases elective in undergrad.</p>
+
+<p>The slowdowns in performance were often caused by:
+* <code>where</code> clauses with many <code>join</code> statements (over 4 or 5, approaching 10)
+* <code>join</code> statements on table columns that were not indexed
+* many subselect statements (sometimes nested) in where clauses</p>
+
+<p>Some take-aways from optimizing lots of those sprocs were:
+* It is hard to know exactly where things are slowing down until you look at the &ldquo;execution plan&rdquo; output of the database engine, and see what is paging, etc.
+* Rethink the schema and table definitions. Sometimes new tables need to be created for data this is commonly joined together where clasues.
+* If the same joins are happening in subsequent queries, do the query once and store results in a cache table (if you can&rsquo;t redefine the schema as per above).</p>
+
+<p>All in all, the programmer learned that database implementation details are magic, but optimizing SQL is not.</p>
+
 <h2 id="1559320529"><a href="index.html#1559320529">🔖</a> 1559320529 - 20190531</h2>
 
 <p>Comments are lies waiting to happen, but documentation is useful.</p>

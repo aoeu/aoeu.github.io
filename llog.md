@@ -3,6 +3,26 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1559777525) 1559777525 - 20190605
+
+### A Structured Query Language Story
+
+A programmer used to optimize reports ("stored-procedures" in individual SQL files) for a finance company. A whole team of 4 used to write and maintain those SQL files and schema but were disbanded. After some years and years of random people spot-editing the SQL files without holistically understanding them or the schema, and this thing called "algorithmic trading" becoming more popular, the hundred or so stored-proceduces ("sprocs") could not finish running overnight.  So, the programmer would get dropped in to clean up particular reports when needed, having taken a databases elective in undergrad.
+
+The slowdowns in performance were often caused by:
+
+* `where` clauses with many `join` statements (over 4 or 5, approaching 10)
+* `join` statements on table columns that were not indexed
+* many subselect statements (sometimes nested) in `where` clauses
+
+Some take-aways from optimizing lots of those sprocs were:
+
+* It is hard to know exactly where things are slowing down until you look at the "execution plan" output of the database engine, and see what is paging, etc.
+* Rethink the schema and table definitions. Sometimes new tables need to be created for data this is commonly joined together where clasues.
+* If the same joins are happening in subsequent queries, do the query once and store results in a cache table (if you can't redefine the schema as per above).
+
+All in all, the programmer learned that database implementation details are magic, but optimizing SQL is not.
+
 ## [🔖](index.html#1559320529) 1559320529 - 20190531
 
 Comments are lies waiting to happen, but documentation is useful.
