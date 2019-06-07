@@ -3,6 +3,46 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1559949792) 1559949792 - 20190607
+
+I'm aware that most programmers would not agree with me, but I believe that [DRY](http://wiki.c2.com/?DontRepeatYourself) is a lie.
+
+### DRY is a lie, part 1: dependencies
+
+I believe that copying a little bit of code is better than a tiny [dependency](https://en.wikipedia.org/wiki/Coupling_(computer_programming)) on a 3rd-party software library.
+
+A lot of code is open source, so we can copy it in the first place, but by copying it we are forced to examine only the pieces that we'll really use, and how those pieces work.  I reason this is a good thing, since there isn't necessarily quality control on any open source project, we could stand to not just blindly trust the code of the library, and we may be able to prune down to a minimal amount of code to solve the problem at hand.
+
+Additionally, the more dependencies we have on 3rd-party software library, the slower our build-time (and development feedback loop while actually coding) is going to be. We'll also maybe need a tool that handles fetching and managing the 3rd-party library, which will likely increase the complexity of the project, if not also slowing down build-times. We won't be able to build the project with just its source code, since we'll have to fetch the 3rd-party libraries from the internet (usually via a build tool) in order to build a program.
+
+For development projects like Android applications, depending on a 3rd-party library (or a lot of them) has an even higher cost, due to apps being only able to have a total of 65,000 functions until more complex build procedures are required.
+
+So, in a lot of cases, I find the trade-offs simply aren't worth it. That doesn't mean I won't use a 3rd-party library, but I'll think if there is something simple I can do myself, or something small and simple I can just copy into my project before using a 3rd-party library. I'll see if I can directly vendor the 3rd-party library and include it in my project (if it is not liable to change, or I don't want changes).
+
+### DRY is a lie, part 2: repeating code
+
+Programmers are often taught to identify when blocks code start repeating, and to extract the code (possibly abstracting it in the process) into a reusable function that may be called in lieu of repating the code blocks.
+
+In practice, I'll do this, but only when enforcing a "Rule of 3's".  If I am repeating the same code twice, I'll copy it. If I need to repeat that code (or something similar) a third time, then I'll extract the code into a named function. I find its often hard to see what pattern is in the code and how to best abstract it (if at all) until there are 3 repeating insances of it.  When needing to repeat the code block only once, I believe it is simpler to just copy it and extract and abstract later if ever needed an additonal time.
+
+### DRY is a lie, part 3: type systems
+
+I include type definitions with this "Rule of 3's" practice as well, where I will not abstract to a more general type or class (via composition) until the the same data is embedded the same way in a total of other 3 types or classes.
+
+I avoid inheritence wherever possible, as I believe having repeat fields (or composition as described above) is a lesser evil than creating a complex hiearchy that a reader must keep in their head, because I, the author, could not be bothered to type something twice and instead made a bunch of classes inheriting from eachother.
+
+I will instead embed types (classes) into others as named fields, favoring composition over inheritence (and using interfaces instead to describe behavior).
+When it comes to inheritence, I believe DRY is a lie as well, since repeating code or function definitions within classes is a chore, but much simpler than coupling a bunch of types together via inheritence and forcing other programmers to remember it all.
+
+### Conclusion
+
+Extracting and abstracting code as to not repeat it is useful and necessary in some contexts, but not all, and we could stand to not immediately create a function, type, or class on the first reuse of any code or data. We'll often get the abstraction wrong without a 3rd example of usage.
+
+When solving a problem, we could stand to not immediately searching for and using a third party library, and instead weigh all our options and the trade offs. If a little bit of code can be written to solve the problem simply and correctly, which is preferred to copying in someone else's solution to the problem, which is preferred to copying in someone else's entire library that has a solution to the problem, which is preferred to depending on someone else's library that has a solution but requires a more complex build process or internet connection.
+
+These are heuristics, and not laws, as is "DRY," so when I see the "DRY" mantra being treated as a law, that is the context in which "DRY is a lie."
+
+
 ## [🔖](index.html#1559777525) 1559777525 - 20190605
 
 ### A Structured Query Language Story

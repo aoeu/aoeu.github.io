@@ -13,21 +13,66 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
+<h2 id="1559949792"><a href="index.html#1559949792">🔖</a> 1559949792 - 20190607</h2>
+
+<p>I&rsquo;m aware that most programmers would not agree with me, but I believe that <a href="http://wiki.c2.com/?DontRepeatYourself">DRY</a> is a lie.</p>
+
+<h3>DRY is a lie, part 1: dependencies</h3>
+
+<p>I believe that copying a little bit of code is better than a tiny <a href="https://en.wikipedia.org/wiki/Coupling_(computer_programming)">dependency</a> on a 3rd-party software library.</p>
+
+<p>A lot of code is open source, so we can copy it in the first place, but by copying it we are forced to examine only the pieces that we&rsquo;ll really use, and how those pieces work.  I reason this is a good thing, since there isn&rsquo;t necessarily quality control on any open source project, we could stand to not just blindly trust the code of the library, and we may be able to prune down to a minimal amount of code to solve the problem at hand.</p>
+
+<p>Additionally, the more dependencies we have on 3rd-party software library, the slower our build-time (and development feedback loop while actually coding) is going to be. We&rsquo;ll also maybe need a tool that handles fetching and managing the 3rd-party library, which will likely increase the complexity of the project, if not also slowing down build-times. We won&rsquo;t be able to build the project with just its source code, since we&rsquo;ll have to fetch the 3rd-party libraries from the internet (usually via a build tool) in order to build a program.</p>
+
+<p>For development projects like Android applications, depending on a 3rd-party library (or a lot of them) has an even higher cost, due to apps being only able to have a total of 65,000 functions until more complex build procedures are required.</p>
+
+<p>So, in a lot of cases, I find the trade-offs simply aren&rsquo;t worth it. That doesn&rsquo;t mean I won&rsquo;t use a 3rd-party library, but I&rsquo;ll think if there is something simple I can do myself, or something small and simple I can just copy into my project before using a 3rd-party library. I&rsquo;ll see if I can directly vendor the 3rd-party library and include it in my project (if it is not liable to change, or I don&rsquo;t want changes).</p>
+
+<h3>DRY is a lie, part 2: repeating code</h3>
+
+<p>Programmers are often taught to identify when blocks code start repeating, and to extract the code (possibly abstracting it in the process) into a reusable function that may be called in lieu of repating the code blocks.</p>
+
+<p>In practice, I&rsquo;ll do this, but only when enforcing a &ldquo;Rule of 3&rsquo;s&rdquo;.  If I am repeating the same code twice, I&rsquo;ll copy it. If I need to repeat that code (or something similar) a third time, then I&rsquo;ll extract the code into a named function. I find its often hard to see what pattern is in the code and how to best abstract it (if at all) until there are 3 repeating insances of it.  When needing to repeat the code block only once, I believe it is simpler to just copy it and extract and abstract later if ever needed an additonal time.</p>
+
+<h3>DRY is a lie, part 3: type systems</h3>
+
+<p>I include type definitions with this &ldquo;Rule of 3&rsquo;s&rdquo; practice as well, where I will not abstract to a more general type or class (via composition) until the the same data is embedded the same way in a total of other 3 types or classes.</p>
+
+<p>I avoid inheritence wherever possible, as I believe having repeat fields (or composition as described above) is a lesser evil than creating a complex hiearchy that a reader must keep in their head, because I, the author, could not be bothered to type something twice and instead made a bunch of classes inheriting from eachother.</p>
+
+<p>I will instead embed types (classes) into others as named fields, favoring composition over inheritence (and using interfaces instead to describe behavior).
+When it comes to inheritence, I believe DRY is a lie as well, since repeating code or function definitions within classes is a chore, but much simpler than coupling a bunch of types together via inheritence and forcing other programmers to remember it all.</p>
+
+<h3>Conclusion</h3>
+
+<p>Extracting and abstracting code as to not repeat it is useful and necessary in some contexts, but not all, and we could stand to not immediately create a function, type, or class on the first reuse of any code or data. We&rsquo;ll often get the abstraction wrong without a 3rd example of usage.</p>
+
+<p>When solving a problem, we could stand to not immediately searching for and using a third party library, and instead weigh all our options and the trade offs. If a little bit of code can be written to solve the problem simply and correctly, which is preferred to copying in someone else&rsquo;s solution to the problem, which is preferred to copying in someone else&rsquo;s entire library that has a solution to the problem, which is preferred to depending on someone else&rsquo;s library that has a solution but requires a more complex build process or internet connection.</p>
+
+<p>These are heuristics, and not laws, as is &ldquo;DRY,&rdquo; so when I see the &ldquo;DRY&rdquo; mantra being treated as a law, that is the context in which &ldquo;DRY is a lie.&rdquo;</p>
+
 <h2 id="1559777525"><a href="index.html#1559777525">🔖</a> 1559777525 - 20190605</h2>
 
 <h3>A Structured Query Language Story</h3>
 
 <p>A programmer used to optimize reports (&ldquo;stored-procedures&rdquo; in individual SQL files) for a finance company. A whole team of 4 used to write and maintain those SQL files and schema but were disbanded. After some years and years of random people spot-editing the SQL files without holistically understanding them or the schema, and this thing called &ldquo;algorithmic trading&rdquo; becoming more popular, the hundred or so stored-proceduces (&ldquo;sprocs&rdquo;) could not finish running overnight.  So, the programmer would get dropped in to clean up particular reports when needed, having taken a databases elective in undergrad.</p>
 
-<p>The slowdowns in performance were often caused by:
-* <code>where</code> clauses with many <code>join</code> statements (over 4 or 5, approaching 10)
-* <code>join</code> statements on table columns that were not indexed
-* many subselect statements (sometimes nested) in where clauses</p>
+<p>The slowdowns in performance were often caused by:</p>
 
-<p>Some take-aways from optimizing lots of those sprocs were:
-* It is hard to know exactly where things are slowing down until you look at the &ldquo;execution plan&rdquo; output of the database engine, and see what is paging, etc.
-* Rethink the schema and table definitions. Sometimes new tables need to be created for data this is commonly joined together where clasues.
-* If the same joins are happening in subsequent queries, do the query once and store results in a cache table (if you can&rsquo;t redefine the schema as per above).</p>
+<ul>
+<li><code>where</code> clauses with many <code>join</code> statements (over 4 or 5, approaching 10)</li>
+<li><code>join</code> statements on table columns that were not indexed</li>
+<li>many subselect statements (sometimes nested) in <code>where</code> clauses</li>
+</ul>
+
+<p>Some take-aways from optimizing lots of those sprocs were:</p>
+
+<ul>
+<li>It is hard to know exactly where things are slowing down until you look at the &ldquo;execution plan&rdquo; output of the database engine, and see what is paging, etc.</li>
+<li>Rethink the schema and table definitions. Sometimes new tables need to be created for data this is commonly joined together where clasues.</li>
+<li>If the same joins are happening in subsequent queries, do the query once and store results in a cache table (if you can&rsquo;t redefine the schema as per above).</li>
+</ul>
 
 <p>All in all, the programmer learned that database implementation details are magic, but optimizing SQL is not.</p>
 
