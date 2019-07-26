@@ -1,0 +1,308 @@
+<h1>Install Lineage OS 14.1 (Unofficial) onto a Amazon Fire HD 8 (2018)</h1>
+
+<h2>About</h2>
+
+<p>This guide is paraphrasing the instructions on an XDA Developers&rsquo; <a href="https://forum.xda-developers.com/hd8-hd10/general/tut-root-hd82018-via-magisk-t3906554">forum post</a>, but with a bit more brevity and with direct-download links in-line with the instructions.<br />
+This guide assumes the use of Ubuntu Linux, although it was successfully performed on Arch Linux with equivalent instructions (for installing python packages and Android tools).</p>
+
+<h2>Prepare your Computer</h2>
+
+<ul>
+<li>If you&rsquo;re not running Linux, you&rsquo;ll need to run from a Live image or use a Virtual machine.</li>
+<li>Install Python tools: <code>sudo pip install pyserial</code> xor <code>sudo apt install python3 python3-serial</code></li>
+<li>Install Android tools: <code>sudo apt install android-tools-adb android-tools-fastboot</code></li>
+
+<li><p>Downolad <a href="https://forum.xda-developers.com/attachment.php?attachmentid=4716727&amp;d=1551731231">amonet-lite.zip</a></p>
+
+<pre><code>unzip amonet-lite.zip
+chmod 755 amonet-lite/bootrom-step.sh
+</code></pre></li>
+
+<li><p>Disable ModemManager:</p>
+
+<pre><code>python -m platform | grep --quiet Ubuntu &amp;&amp; sudo apt remove modemmanager
+</code></pre></li>
+</ul>
+
+<h2>Prepare the Tablet</h2>
+
+<h3>Put Tablet into Developer Mode</h3>
+
+<ul>
+<li>Open Settings App</li>
+<li>Click on &ldquo;Device Options&rdquo;</li>
+<li>Click on &ldquo;About Fire Tablet&rdquo;</li>
+<li>Click on &ldquo;Serial Number&rdquo; many times until a toast appears saying developer mode has been enabled.</li>
+<li>Press the back button to go back to &ldquo;Device Options&rdquo; screen</li>
+<li>Click on &ldquo;Developer Options&rdquo; (below &ldquo;About Fire Tablet&rdquo;)</li>
+<li>Click the &ldquo;On&rdquo; switch to enable it</li>
+<li>Scroll down to &ldquo;Debugging&rdquo; section</li>
+<li>Click the &ldquo;USB debugging&rdquo; switch to enable it</li>
+</ul>
+
+<h3>Install G-Apps</h3>
+
+<ul>
+<li>Download the 4 APKs (version matters) described <a href="https://www.xda-developers.com/amazon-fire-hd-8-google-play-store/">here</a>, which requires clicking-through ~3 pages per APK, or just use directly links here:
+
+<ul>
+<li><a href="https://www.apkmirror.com/apk/google-inc/google-services-framework/google-services-framework-7-1-2-release/google-services-framework-7-1-2-android-apk-download/download/">Google Services Framework 7.1.2</a></li>
+<li><a href="https://www.apkmirror.com/apk/google-inc/google-account-manager/google-account-manager-7-1-2-release/google-account-manager-7-1-2-android-apk-download/download/">Google Account Manager 7.1.2</a></li>
+<li><a href="https://www.apkmirror.com/apk/google-inc/google-play-services/google-play-services-14-3-66-release/google-play-services-14-3-66-020400-213742215-android-apk-download/download/">Google Play Services 14.3.66 64bit nodpi</a></li>
+<li><a href="https://www.apkmirror.com/apk/google-inc/google-play-store/google-play-store-11-9-14-release/google-play-store-11-9-14-all-0-pr-214884739-android-apk-download/download/">Google Play Store 11.9.14</a></li>
+</ul></li>
+<li>Connect the device to your computer with a USB cable and accept the prompt to enable communication with your computer.</li>
+
+<li><p>Install the APK files to the android device:</p>
+
+<pre><code>adb kill-server &amp;&amp; sudo adb start-server
+adb install -r 'com.android.vending_11.9.14-all_0_PR_214884739-81191400_minAPI16(armeabi,armeabi-v7a,mips,mips64,x86,x86_64)(240,320,480dpi)_apkmirror.com.apk'
+adb install -r 'com.google.android.gms_14.3.66_(020400-213742215)-14366010_minAPI21(arm64-v8a,armeabi-v7a)(nodpi)_apkmirror.com.apk'
+adb install -r 'com.google.android.gsf_7.1.2-25_minAPI25(nodpi)_apkmirror.com.apk'
+adb install -r 'com.google.android.gsf.login_7.1.2-25_minAPI23(nodpi)_apkmirror.com.apk'
+</code></pre></li>
+</ul>
+
+<h3>Drain the Battery</h3>
+
+<ul>
+<li>Download &ldquo;Fast Discharge&rdquo; from Google Play Store</li>
+<li>Start draining the battery to 3%</li>
+<li>FAQ:
+
+<ul>
+<li>Why? Because if the rooting scripts freeze, you&rsquo;ll have to wait for battery to drain before trying again.</li>
+<li>Why not 4% battery life?  Because it&rsquo;ll be 1 hour per 1% battery drain when in Bootloader.</li>
+<li>Why not 2% battery life?  Because you&rsquo;ll need just enough battery to reboot into TWRP after rooting, and 2% isn&rsquo;t.</li>
+</ul></li>
+</ul>
+
+<h3>Prepare for Rooting</h3>
+
+<ul>
+<li>Download zip files that are attached to bottom of <a href="https://forum.xda-developers.com/hd8-hd10/general/tut-root-hd82018-via-magisk-t3906554">this forum post</a>:
+
+<ul>
+<li><a href="https://forum.xda-developers.com/attachment.php?attachmentid=4715583&amp;d=1551558490">unlock_images.zip</a></li>
+<li><a href="https://forum.xda-developers.com/attachment.php?attachmentid=4715583&amp;d=1551558490">finalize_no_ota.zip</a></li>
+</ul></li>
+<li>Downlad <a href="https://github.com/topjohnwu/Magisk/releases/download/v18.0/Magisk-v18.0.zip">Magisk-v18.0.zip</a> (referenced in article step 4)</li>
+<li>Download the MediaTek superuser binary (arm, not arm64), <a href="https://forum.xda-developers.com/attachment.php?attachmentid=4791658">mtk-su_r17.zip</a> (referenced in article step 6, referring to this <a href="https://forum.xda-developers.com/hd8-hd10/orig-development/experimental-software-root-hd-8-hd-10-t3904595">other forum poust</a>)</li>
+
+<li><p>Copy the files over to the device:</p>
+
+<pre><code>adb kill-server &amp;&amp; sudo adb start-server
+adb shell mkdir /sdcard/00
+adb push unlock_images.zip /sdcard/00
+adb push finalize_no_ota.zip /sdcard/00
+adb push Magisk-v18.0.zip /sdcard/00
+adb push mtk-su_r17/arm/mtk-su /data/local/tmp
+adb shell chmod 755 /data/local/tmp/mtk-su
+</code></pre></li>
+</ul>
+
+<h2>Root the device</h2>
+
+<ul>
+<li>DRAIN THE BATTERY via Fast Discharge to 3%, this is critical to do. Don&rsquo;t go <em>lower</em> than 3%.</li>
+<li>Keep the tablet screen ON and do NOT let it go to sleep.</li>
+
+<li><p>Shell into device and then start the MediaTek superuser binary:</p>
+
+<pre><code>adb shell
+cd /data/local/tmp/
+./mtk-su
+</code></pre></li>
+
+<li><p>If the program gets stuck after a few seconds, press <code>ctrl+c</code> and try again.</p></li>
+
+<li><p>You should get a root shell, with the prompt: <code>karnak:/data/local/tmp #</code></p></li>
+
+<li><p>If the prompt does not say <em>karnak</em> then STOP and do NOT continue, you don&rsquo;t have a Fire HD 8 2018.</p></li>
+
+<li><p>Do the following commands from the root shell, make sure there are no errors other than exepceted errors that say &ldquo;no disk space on device&rdquo; for the commands using <code>/dev/zero</code> :</p>
+
+<pre><code>dd if=/dev/block/platform/soc/11230000.mmc/by-name/boot of=/sdcard/00/boot_orig.img
+dd if=/dev/block/platform/soc/11230000.mmc/by-name/lk of=/sdcard/00/orig_lk.bin
+dd if=/dev/block/platform/soc/11230000.mmc/by-name/tee1 of=/sdcard/00/orig_tz.bin
+dd if=/dev/block/mmcblk0boot0 of=/sdcard/00/orig_boot0.bin
+dd if=/dev/zero of=/dev/block/platform/soc/11230000.mmc/by-name/recovery
+dd if=/sdcard/00/unlock_recovery-inj.img of=/dev/block/platform/soc/11230000.mmc/by-name/recovery
+</code></pre></li>
+
+<li><p>Double check the MD5 sums:</p>
+
+<pre><code>md5sum /sdcard/00/unlock_lk.bin
+md5sum /sdcard/00/unlock_tz.bin
+md5sum /dev/block/platform/soc/11230000.mmc/by-name/recovery
+</code></pre>
+
+<pre><code>90ee125c08abc999f78325d30e26a388  /sdcard/00/unlock_lk.bin
+982513e70d6de114ed4a9058a86de848  /sdcard/00/unlock_tz.bin
+faae811e229f0a7780fd130a286d3c47  /dev/block/platform/soc/11230000.mmc/by-name/recovery
+</code></pre></li>
+
+<li><p>Proceed wiping the preloader, which will enable the BootRom with these commands:</p>
+
+<pre><code>dd if=/sdcard/00/unlock_lk.bin of=/dev/block/platform/soc/11230000.mmc/by-name/lk
+dd if=/sdcard/00/unlock_tz.bin of=/dev/block/platform/soc/11230000.mmc/by-name/tee1
+dd if=/sdcard/00/unlock_tz.bin of=/dev/block/platform/soc/11230000.mmc/by-name/tee2
+dd if=/sdcard/00/unlock_recovery-inj.img of=/dev/block/platform/soc/11230000.mmc/by-name/boot
+dd if=/sdcard/00/unlock_recovery-inj.img of=/dev/block/platform/soc/11230000.mmc/by-name/recovery
+echo 0 &gt; /sys/block/mmcblk0boot0/force_ro
+dd if=/dev/zero of=/dev/block/mmcblk0boot0
+echo 'EMMC_BOOT' &gt; /dev/block/mmcblk0boot0
+md5sum /dev/block/mmcblk0boot0
+</code></pre></li>
+
+<li><p>You should be in a bricked state, intentionally, disconnect the tablet and turn it off.</p></li>
+
+<li><p>On your linux computer:</p>
+
+<pre><code>python -m platform | grep --quiet Ubuntu &amp;&amp; sudo apt remove modemmanager
+sudo su
+amonet-lite/bootrom-step.sh
+</code></pre></li>
+
+<li><p>Attach the bricked tablet to the computer with USB cable, try to use a true USB-2 port.</p></li>
+
+<li><p>Wait as the tablet enters BootRom mode and interacts with the running <code>bootrom-step.sh</code> script.</p></li>
+
+<li><p>Follow instructions on screen from the <code>bootrom-step.sh</code> script.</p></li>
+
+<li><p>If it freezes before finishing, wait for the battery to drain (1 hour per 1% battery life), try again.</p></li>
+
+<li><p>If it succeeds, you should see the thing reboot and show an &ldquo;Amazon&rdquo; screen. Then it should enter TWRP.
+If you see a black screen:</p>
+
+<ul>
+<li>Tap the power button a couple times, TWRP sometimes startups up as a black screen.</li>
+<li>Try charging the laptop a little bit, then turn it on again.</li>
+</ul></li>
+
+<li><p>Restore boot partition to its original location:</p>
+
+<ul>
+<li>In TWRP click &ldquo;Install&rdquo; button.</li>
+<li>Navigate up and to <code>/sdcard/00</code> folder, select the &ldquo;Install Image&rdquo; button in the lower right hand of the screen.</li>
+<li>Select the file named <code>boot_orig.img</code>, select the <code>boot partition</code> radio button.</li>
+<li>Swipe the slider at the bottom of the screen to install.</li>
+</ul></li>
+
+<li><p>Install Magisk:</p>
+
+<ul>
+<li>On the main TWRP screen, click the &ldquo;Install&rdquo; button.</li>
+<li>Navigate up and to <code>/sdcard/00</code> folder, select the &ldquo;Install Zip&rdquo; button in the lower right hand of the screen.</li>
+<li>Select the file named <code>Magisk-v18.0.zip</code></li>
+<li>Swipe the slider at the bottom of the screen to install.<br /></li>
+</ul></li>
+
+<li><p>Disable Over-The-Air updating:</p>
+
+<ul>
+<li>On the main TWRP screen, click the &ldquo;Install&rdquo; button.</li>
+<li>Navigate up and to <code>/sdcard/00</code> folder, select the &ldquo;Install Zip&rdquo; button in the lower right hand of the screen.</li>
+<li>Select the file named <code>finalize_no_ota.zip</code></li>
+<li>Swipe the slider at the bottom of the screen to install.</li>
+</ul></li>
+
+<li><p>Reboot from TWRP and Fire OS should boot, now rooted.</p></li>
+</ul>
+
+<h2>Install Lineage OS</h2>
+
+<ul>
+<li>Download lastest of <a href="https://github.com/mt8163/android_device_amazon_karnak/releases">Lineage OS 14.1 releases</a></li>
+<li>Download <a href="https://opengapps.org/">G-Apps</a> Pico 7.1 for ARM (not arm 64):
+
+<ul>
+<li>Select <code>ARM</code> (not arm64), <code>7.1</code>, and <code>pico</code> radio buttons and then the download button.</li>
+</ul></li>
+
+<li><p>Push the files to the tablet device:</p>
+
+<pre><code>adb push lineage-14.1-20190717-UNOFFICIAL-karnak.zip /sdcard/00/
+adb push  open_gapps-arm64-7.1-pico-20190712.zip  /sdcard/00
+</code></pre></li>
+
+<li><p>Boot TWRP by turning off the tablet, then holding down the power and volume buttons continuously whli ethe device boots into TWRP.</p></li>
+
+<li><p>Wipe device&rsquo;s existing the caches</p>
+
+<ul>
+<li>From main TWRP screen, press the Wipe button</li>
+<li>Press the Advanced Wipe Button</li>
+<li>Select the &ldquo;System&rdquo;, &ldquo;Data&rdquo;, and &ldquo;Cache&rdquo; check-boxes</li>
+<li>Swipe the slider to wipe the partitions</li>
+<li>Press the back button</li>
+</ul></li>
+
+<li><p>Install LineageOS</p>
+
+<ul>
+<li>Select the Install button</li>
+<li>Select the LineageOS zip in <code>/sdcard/00</code></li>
+<li>Select Add More Zips</li>
+<li>Select G-Apps zip in <code>/sdcard/00</code>  (arm 7.1 pico, NOT arm64)</li>
+<li>Swipe to confirm flash</li>
+<li>Reboot</li>
+</ul></li>
+
+<li><p>Sideload MagiskManager (optional)</p>
+
+<ul>
+<li>From the <a href="https://forum.xda-developers.com/apps/magisk/official-magisk-v7-universal-systemless-t3473445">Magisk page</a>, download the latest <a href="https://github.com/topjohnwu/Magisk/releases/download/manager-v7.3.2/MagiskManager-v7.3.2.apk">Magisk Manager APK</a></li>
+<li><code>adb install -r MagiskManager-v7.3.2.apk</code></li>
+</ul></li>
+</ul>
+
+<h2>References:</h2>
+
+<p>The following forum posts and articles are where all the information was gathered from:</p>
+
+<ul>
+<li>Installing G-Apps on (unmodified) Fire HD 8 2018: <a href="https://www.xda-developers.com/amazon-fire-hd-8-google-play-store/">https://www.xda-developers.com/amazon-fire-hd-8-google-play-store/</a></li>
+<li>Rooting the Fire HD 8 2018 (and installing TWRP): <a href="https://forum.xda-developers.com/hd8-hd10/general/tut-root-hd82018-via-magisk-t3906554">https://forum.xda-developers.com/hd8-hd10/general/tut-root-hd82018-via-magisk-t3906554</a></li>
+<li>LineageOS 14.1 for Fire HD 8 2018: <a href="https://forum.xda-developers.com/hd8-hd10/general/lineageos-14-1-fire-hd8-2018-t3936242">https://forum.xda-developers.com/hd8-hd10/general/lineageos-14-1-fire-hd8-2018-t3936242</a></li>
+</ul>
+
+<h2>Example Output:</h2>
+
+<p>This is my output from various steps.</p>
+
+<p>My output from the BootRom step:</p>
+
+<pre><code>aoeu@derp in /home/aoeu/Downloads/amonet-lite at 2019-18-07 22:22:14
+&gt; sudo su
+[root@derp amonet-lite]# ./bootrom-step.sh
+[2019-07-18 22:22:26.852535] Waiting for bootrom
+[2019-07-18 22:22:35.140752] Found port = /dev/ttyACM0
+[2019-07-18 22:22:35.141903] Handshake
+[2019-07-18 22:22:35.142644] Disable watchdog
+
+ * * * Remove the short and press Enter * * *
+
+
+[2019-07-18 22:22:55.211340] Init crypto engine
+[2019-07-18 22:22:55.234236] Disable caches
+[2019-07-18 22:22:55.236025] Disable bootrom range checks
+[2019-07-18 22:22:55.249573] Load payload from ../brom-payload/build/payload.bin = 0x4690 bytes
+[2019-07-18 22:22:55.251852] Send payload
+[2019-07-18 22:22:55.924547] Let's rock
+[2019-07-18 22:22:55.925434] Wait for the payload to come online...
+[2019-07-18 22:22:57.295633] all good
+[2019-07-18 22:22:57.296188] Check GPT
+[2019-07-18 22:22:57.632427] gpt_parsed = {'proinfo': (1024, 6144), 'PMT': (7168, 9216), 'kb': (16384, 2048), 'dkb': (18432, 2048), 'lk': (20480, 2048), 'tee1': (22528, 10240), 'tee2': (32768, 10240), 'metadata': (43008, 80896), 'MISC': (123904, 1024), 'reserved': (124928, 16384), 'boot': (141312, 32768), 'recovery': (174080, 40960), 'system': (215040, 6354944), 'vendor': (6569984, 460800), 'cache': (7030784, 1024000), 'userdata': (8054784, 53016543)}
+[2019-07-18 22:22:57.632696] Check boot0
+[2019-07-18 22:22:57.879854] Check rpmb
+[2019-07-18 22:22:58.089028] Downgrade rpmb
+[2019-07-18 22:22:58.091038] Recheck rpmb
+[2019-07-18 22:22:58.985634] rpmb downgrade ok
+[2019-07-18 22:22:58.985930] Flash lk-payload
+[4 / 4]
+[2019-07-18 22:22:59.316918] Flash preloader
+[288 / 288]
+[2019-07-18 22:23:05.970769] Reboot to unlocked fastboot
+[root@derp amonet-lite]# 
+</code></pre>
