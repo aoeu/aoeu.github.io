@@ -13,6 +13,20 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
+<h2 id="1564172640"><a href="index.html#1564172640">🔖</a> 1564172640 - 20190726</h2>
+
+<p>It is both amusing and alarming to me that, still in 2019, GNU <code>sed</code> 4.5 does not support Unicode code-points as a delimeter:</p>
+
+<pre><code>$ echo 'frosty the snowman' | /bin/sed 's☃frosty☃jack frost☃'
+/bin/sed: -e expression #1, char 2: delimiter character is not a single-byte character
+</code></pre>
+
+<p>Plan9 to the rescue, though:</p>
+
+<pre><code>$ echo 'frosty the snowman' | ~/plan9/bin/sed 's☃frosty☃jack frost☃'
+jack frost the snowman
+</code></pre>
+
 <h2 id="1559949792"><a href="index.html#1559949792">🔖</a> 1559949792 - 20190607</h2>
 
 <p>I&rsquo;m aware that most programmers would not agree with me, but I believe that <a href="http://wiki.c2.com/?DontRepeatYourself">DRY</a> is a lie.</p>

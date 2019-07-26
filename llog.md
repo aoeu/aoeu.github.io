@@ -3,6 +3,20 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1564172640) 1564172640 - 20190726
+
+It is both amusing and alarming to me that, still in 2019, GNU `sed` 4.5 does not support Unicode code-points as a delimeter:
+```
+$ echo 'frosty the snowman' | /bin/sed 's☃frosty☃jack frost☃'
+/bin/sed: -e expression #1, char 2: delimiter character is not a single-byte character
+```
+
+Plan9 to the rescue, though:
+```
+$ echo 'frosty the snowman' | ~/plan9/bin/sed 's☃frosty☃jack frost☃'
+jack frost the snowman
+```
+
 ## [🔖](index.html#1559949792) 1559949792 - 20190607
 
 I'm aware that most programmers would not agree with me, but I believe that [DRY](http://wiki.c2.com/?DontRepeatYourself) is a lie.
