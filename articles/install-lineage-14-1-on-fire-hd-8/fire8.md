@@ -20,6 +20,14 @@ python -m platform | grep --quiet Ubuntu && sudo apt remove modemmanager
 
 ## Prepare the Tablet
 
+### Do not connect tablet to the Internet
+
+If your Fire 8 HD 2018 has already been connected to the internet after 9/11/2019, then Amazon may have already pushed an over-the-air update that prevents `mtk-su` from working [as noted by the author](https://forum.xda-developers.com/showpost.php?p=80102590&postcount=786). It appears that `mtk-su` is such an effective tool that Amazon deliberatley patched Fire OS to make `mtk-su` not work.
+
+The best way to avoid this is to not connect the Fire 8 HD 2018 *at all* after getting it from Amazon.
+
+If you already have the update that prevents `mtk-su` from working, you will have to go through a [slight hassle of downgrading](https://forum.xda-developers.com/hd8-hd10/orig-development/fire-hd-8-2018-downgrade-unlock-root-t3894256) the tablet via shorting a pin and flashing relevant software onto it.
+
 ### Put Tablet into Developer Mode
 * Open Settings App
 * Click on "Device Options"
