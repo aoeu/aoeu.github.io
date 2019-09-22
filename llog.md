@@ -3,6 +3,16 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1569180707) 1569180707 - 20190922
+TIL that `7z e <filename.7z>` extracts the an archive file, but puts all contents "flat" into the current directory. This means that an entire archive's directory tree of files (the leaves) are extracted into the working directory, possibly presenting naming conflicts amongst themselves or the possibility of overwriting existing files in the current directory.  Alternatively, to "eXtract with full paths" intact from the archive, we have to use `7z x <filename.7z>`.
+
+This is counter-intuitive, since `7z a <file>...` *archives* a given set of files and directories, with full paths, so one would expect that `7z e <archive-filename>` to *extract* files as they were added.  Instead, we must use the cute `7z x` subcommand to do the symmetrically opposite function of `7z a` while breaking the convention of "subcommand is named after first letter of the function it represents."
+
+I feel like whoever designed this `x` vs `e` subcommand interface is the type of folks that would also design a two-button toilet flusher (where the buttons are on the top, like how some are built), but instead of those buttons being "light" and "heavy" flush, one button flushes and the other button shoots water in your face.
+
+As in, why would anyone ever want it to do that? And if someone did, why would the interface designer not make more clearly contrasting buttons (or an entirely different mechanism)? All in all, its subtle failures in interface design that will surely be worked around on subsequent uses, but is designed in a way that is not friendly to first-time users. 
+
+
 ## [🔖](index.html#1564172640) 1564172640 - 20190726
 
 It is both amusing and alarming to me that, still in 2019, GNU `sed` 4.5 does not support Unicode code-points as a delimeter:

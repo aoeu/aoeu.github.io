@@ -13,6 +13,16 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
+<h2 id="1569180707"><a href="index.html#1569180707">🔖</a> 1569180707 - 20190922</h2>
+
+<p>TIL that <code>7z e &lt;filename.7z&gt;</code> extracts the an archive file, but puts all contents &ldquo;flat&rdquo; into the current directory. This means that an entire archive&rsquo;s directory tree of files (the leaves) are extracted into the working directory, possibly presenting naming conflicts amongst themselves or the possibility of overwriting existing files in the current directory.  Alternatively, to &ldquo;eXtract with full paths&rdquo; intact from the archive, we have to use <code>7z x &lt;filename.7z&gt;</code>.</p>
+
+<p>This is counter-intuitive, since <code>7z a &lt;file&gt;...</code> <em>archives</em> a given set of files and directories, with full paths, so one would expect that <code>7z e &lt;archive-filename&gt;</code> to <em>extract</em> files as they were added.  Instead, we must use the cute <code>7z x</code> subcommand to do the symmetrically opposite function of <code>7z a</code> while breaking the convention of &ldquo;subcommand is named after first letter of the function it represents.&rdquo;</p>
+
+<p>I feel like whoever designed this <code>x</code> vs <code>e</code> subcommand interface is the type of folks that would also design a two-button toilet flusher (where the buttons are on the top, like how some are built), but instead of those buttons being &ldquo;light&rdquo; and &ldquo;heavy&rdquo; flush, one button flushes and the other button shoots water in your face.</p>
+
+<p>As in, why would anyone ever want it to do that? And if someone did, why would the interface designer not make more clearly contrasting buttons (or an entirely different mechanism)? All in all, its subtle failures in interface design that will surely be worked around on subsequent uses, but is designed in a way that is not friendly to first-time users.</p>
+
 <h2 id="1564172640"><a href="index.html#1564172640">🔖</a> 1564172640 - 20190726</h2>
 
 <p>It is both amusing and alarming to me that, still in 2019, GNU <code>sed</code> 4.5 does not support Unicode code-points as a delimeter:</p>
