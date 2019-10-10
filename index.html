@@ -13,6 +13,20 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
+<h2 id="1570731778"><a href="index.html#1570731778">🔖</a> 1570731778 - 20191010</h2>
+
+<p>There&rsquo;s a configuration used sometimes in collusion with git submodules, or if writing a Go module that depends on an additional Go package in a private repository (thus tripping up <code>go get</code>&rsquo;s ability to automatically download the dependency):</p>
+
+<pre><code>[url &quot;git@github.com:&quot;]
+        insteadOf = https://github.com/
+</code></pre>
+
+<p>This <del>underhanded kludge</del> makeshift bandage for the original problem is harmful, as it breaks other programs, such as <code>cargo</code>&rsquo;s ability to download dependencies<a href="https://github.com/rust-lang/cargo/issues/3381#issuecomment-392297524">[1]</a>. Using this workaronud with the <code>go</code> tool just remanifests a similar (but worse) problem with <code>cargo</code>!</p>
+
+<p>I had this configuration myself, due to working with a 3rd party &ldquo;monolithic&rdquo; repository that utterly broke its promise to be monolithic by having a single, major dependency on an extenal, private GitHub repository. A monolithic repository with a single external dependency is no longer a monolithic repository! My solution is that I (thankfully) do not have to work with those repositories anymore and can delete the problematic <code>git</code> configuration.</p>
+
+<p>However, the &ldquo;real&rdquo; fix for the original problem is to have the discipline and organization to use a monolithic repository. You may have to do a bit more easy and simple work, albeit monotonous, vendoring your own dependencies, but it will benefit you and your projects (and those around you) in the long haul.</p>
+
 <h2 id="1569180707"><a href="index.html#1569180707">🔖</a> 1569180707 - 20190922</h2>
 
 <p>TIL that <code>7z e &lt;filename.7z&gt;</code> extracts the an archive file, but puts all contents &ldquo;flat&rdquo; into the current directory. This means that an entire archive&rsquo;s directory tree of files (the leaves) are extracted into the working directory, possibly presenting naming conflicts amongst themselves or the possibility of overwriting existing files in the current directory.  Alternatively, to &ldquo;eXtract with full paths&rdquo; intact from the archive, we have to use <code>7z x &lt;filename.7z&gt;</code>.</p>

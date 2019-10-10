@@ -3,6 +3,20 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1570731778) 1570731778 - 20191010
+There's a configuration used sometimes in collusion with git submodules, or if writing a Go module that depends on an additional Go package in a private repository (thus tripping up `go get`'s ability to automatically download the dependency):
+
+```
+[url "git@github.com:"]
+        insteadOf = https://github.com/
+```
+
+This ~~underhanded kludge~~ makeshift bandage for the original problem is harmful, as it breaks other programs, such as `cargo`'s ability to download dependencies[[1]](https://github.com/rust-lang/cargo/issues/3381#issuecomment-392297524). Using this workaronud with the `go` tool just remanifests a similar (but worse) problem with `cargo`!
+
+I had this configuration myself, due to working with a 3rd party "monolithic" repository that utterly broke its promise to be monolithic by having a single, major dependency on an extenal, private GitHub repository. A monolithic repository with a single external dependency is no longer a monolithic repository! My solution is that I (thankfully) do not have to work with those repositories anymore and can delete the problematic `git` configuration.
+
+However, the "real" fix for the original problem is to have the discipline and organization to use a monolithic repository. You may have to do a bit more easy and simple work, albeit monotonous, vendoring your own dependencies, but it will benefit you and your projects (and those around you) in the long haul.
+
 ## [🔖](index.html#1569180707) 1569180707 - 20190922
 TIL that `7z e <filename.7z>` extracts the an archive file, but puts all contents "flat" into the current directory. This means that an entire archive's directory tree of files (the leaves) are extracted into the working directory, possibly presenting naming conflicts amongst themselves or the possibility of overwriting existing files in the current directory.  Alternatively, to "eXtract with full paths" intact from the archive, we have to use `7z x <filename.7z>`.
 
