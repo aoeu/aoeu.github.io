@@ -3,6 +3,43 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1596038377) 1596038377 - 20200729
+
+### Enemy of the State, Part 1
+
+For the following piece of Java code (where we'll substitute 1-to-N lower-case letter variable and method names are used in lieu of "foo" or "bar"):
+
+```
+// 1-to-N lower-case letter variable and method names are used in lieu of “foo” or “bar”.
+
+void m() {
+	o.mm(
+		new Object(),
+		mmm(500, 2000)
+	);
+}
+```
+
+A reviewer asked me, "Could we just allocate `new Object()` once and just keep passing the same one in?"
+
+This is a good question, and the answer is counter-intuitive: we don't want to re-use the same object instance over-and-over in this case.
+
+We get told many times in school or out-dated Java books to "avoid allocating" and that "`new` is expensive", which simply isn't true in all cases and leads to problems if followed rotely.
+
+The reasoning is:
+
+* Objects are cheap.
+* The garbage collector is pretty smart these days (and will optimize clean-up in these cases).
+* We assess the risks for if it is worth holding onto state (variables / objects) for more than one use orfor beyond the current scope.
+
+If there is a performance problem such that we are performance tuning, and allocating new objects turns out to be the bottleneck, we'll prefer to hold onto some variables that exist in a broader scope and try to never touch the allocator (i.e. by using `new` only once per variable).
+
+Otherwise, especially with any sort threading code, it is best to have "clean slates" i.e. new (and preferrably) immutable objects each time we are calling a method that needs them. Stale-state increases the chance of bugs, and amongst the worst bugs involving stale-state can occur when multiple threads are erroneously trying to read or operate off the same variable (which may require different states for different threads in the same moment of concurrent execution).
+
+Beyond that, I personally have little patience for noisy repitition in lines of code, such as `ObjectName objectName = new ObjectName();`,  so if I can get away with just `new ObjectName()`, I do.  It reads a 'lil cleaner.
+
+In summary, we'll have more readable code and avoid bugs by greedily using the `new` keyword in attempts to have variables (objects) that are clean-slate, single use, and restricted to the smallest scope possible in our code. In specific (and somewhat rare) cases, we may not do this for performance reasons, but in general, we'll avoid bugs caused by stale-state in our code.
+
 ## [🔖](index.html#1570731778) 1570731778 - 20191010
 There's a configuration used sometimes in collusion with git submodules, or if writing a Go module that depends on an additional Go package in a private repository (thus tripping up `go get`'s ability to automatically download the dependency):
 

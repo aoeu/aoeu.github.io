@@ -13,6 +13,44 @@
 
 <p>This is a log of things I learn, experiment with, or think about.</p>
 
+<h2 id="1596038377"><a href="index.html#1596038377">🔖</a> 1596038377 - 20200729</h2>
+
+<h3>Enemy of the State, Part 1</h3>
+
+<p>For the following piece of Java code (where we&rsquo;ll substitute 1-to-N lower-case letter variable and method names are used in lieu of &ldquo;foo&rdquo; or &ldquo;bar&rdquo;):</p>
+
+<pre><code>// 1-to-N lower-case letter variable and method names are used in lieu of “foo” or “bar”.
+
+void m() {
+	o.mm(
+		new Object(),
+		mmm(500, 2000)
+	);
+}
+</code></pre>
+
+<p>A reviewer asked me, &ldquo;Could we just allocate <code>new Object()</code> once and just keep passing the same one in?&rdquo;</p>
+
+<p>This is a good question, and the answer is counter-intuitive: we don&rsquo;t want to re-use the same object instance over-and-over in this case.</p>
+
+<p>We get told many times in school or out-dated Java books to &ldquo;avoid allocating&rdquo; and that &ldquo;<code>new</code> is expensive&rdquo;, which simply isn&rsquo;t true in all cases and leads to problems if followed rotely.</p>
+
+<p>The reasoning is:</p>
+
+<ul>
+<li>Objects are cheap.</li>
+<li>The garbage collector is pretty smart these days (and will optimize clean-up in these cases).</li>
+<li>We assess the risks for if it is worth holding onto state (variables / objects) for more than one use orfor beyond the current scope.</li>
+</ul>
+
+<p>If there is a performance problem such that we are performance tuning, and allocating new objects turns out to be the bottleneck, we&rsquo;ll prefer to hold onto some variables that exist in a broader scope and try to never touch the allocator (i.e. by using <code>new</code> only once per variable).</p>
+
+<p>Otherwise, especially with any sort threading code, it is best to have &ldquo;clean slates&rdquo; i.e. new (and preferrably) immutable objects each time we are calling a method that needs them. Stale-state increases the chance of bugs, and amongst the worst bugs involving stale-state can occur when multiple threads are erroneously trying to read or operate off the same variable (which may require different states for different threads in the same moment of concurrent execution).</p>
+
+<p>Beyond that, I personally have little patience for noisy repitition in lines of code, such as <code>ObjectName objectName = new ObjectName();</code>,  so if I can get away with just <code>new ObjectName()</code>, I do.  It reads a &lsquo;lil cleaner.</p>
+
+<p>In summary, we&rsquo;ll have more readable code and avoid bugs by greedily using the <code>new</code> keyword in attempts to have variables (objects) that are clean-slate, single use, and restricted to the smallest scope possible in our code. In specific (and somewhat rare) cases, we may not do this for performance reasons, but in general, we&rsquo;ll avoid bugs caused by stale-state in our code.</p>
+
 <h2 id="1570731778"><a href="index.html#1570731778">🔖</a> 1570731778 - 20191010</h2>
 
 <p>There&rsquo;s a configuration used sometimes in collusion with git submodules, or if writing a Go module that depends on an additional Go package in a private repository (thus tripping up <code>go get</code>&rsquo;s ability to automatically download the dependency):</p>
