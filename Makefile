@@ -7,7 +7,7 @@ html : llog.md
 preview :
 	test $(shell uname) = Darwin && open index.html || xdg-open index.html
 
-entrytitles:
+entrytitles :
 	sed -i 's/^## \([0-9]\{10\}\) - /## [📑](index.html#\1) \1 - /' llog.md
 
 clean :
