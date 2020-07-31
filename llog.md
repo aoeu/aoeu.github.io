@@ -3,6 +3,193 @@
 ## About
 This is a log of things I learn, experiment with, or think about.
 
+## [🔖](index.html#1596221294) 1596221294 - 20200731
+
+[//]: # (TODO: write Becoming a Software Savior, Part1: Creating Unquestionable If-Statements)
+
+### Becoming a Software Saboteur: Creating Questionable If-Statements
+
+Let's use if-statements to sabotage some software by creating bugs and unmaintainable code.
+
+#### Compounding Problems with Multiple-Abstractions-Per-Line-of-Code
+
+Understanding the value of "One Abstraction per Line of Code" is necessary for undoing it, and undoing it is an essential prerequisite for all our sabotage via if-statements.
+
+Think of many boolean variables, function calls, and conditions within an if-statement clause in the same way as you think of "magic-numbers" within a program.
+Instead of labeling the magic-numbers with a variable that has _a name signifying the **intent** of usage_ of the number, we can have an unamed raw number somewhere in the code.  The equivalent with boolean logic is to call functions, perform comparrisons, and put other boolean operations within an if-statement clause itself.
+
+Clean-code strives to be legible as a primary goal, and to not mix multiple-abstractions on a single line of code [\[1\]](#1596221294_1).
+
+In this contrived example...
+```
+var shouldPressGasPedal bool = trafficLight.isGreen() && !breakPedal.isPressed()
+if (shouldPressGasPedal) {
+	driver.press(gasPedal)
+}
+```
+...each line of code concerns itself with one thing (abstraction):
+
+1. Labeling (naming) a condition for its meaning
+2. Executing control-flow (with a pre-established named condition)
+3. Execution of an action (directly related to the named condition)
+
+If someone were to change the `gasPedal` variable to `brakePedal`...
+```
+var shouldPressGasPedal bool = trafficLight.isGreen() && !breakPedal.isPressed()
+if (shouldPressGasPedal) {
+	driver.press(brakePedal)
+}
+```
+...the error is far too easy to see, because the helpfully named `shouldPressGasPedal` variable expresses intent of the if-statement while being so close (on the screen) to the `brakePedal` variable.
+
+
+So, if someone has kept abstractions separate to each line of code, let's undo their work.
+Since our goal is to maximize *any* extra potential for bugs and unmaintainablility, we will change the code to:
+```
+if (trafficLight.isGreen() && !breakPedal.isPressed()) {
+	driver.press(gasPedal)
+}
+```
+The above change forces the code-reviewer to expend extra brain-power (no matter how little) to derive the intended meaning from the if-statement clause. For the same reason, a missing operator like `!` would be harder to spot.
+
+We can justify the change by saying we're decreasing the total lines of code. We can also claim the program is more memory-efficient by removing an unnecessary variable. Hopefully the code-reviewer is oblivious to how extremely efficient compilers are at optimizing away any performance cost.
+
+However, the *far* more important reason for sabotaging the code this way is it serves as a critical foundation: Multiple-abstractions in the if-statement clause perfectly sets us up for creating arrow-code, which itself enables us to devolve the code in many more ways.
+
+#### Shoot for Arrows
+A reliable tactic is to nest if-statements as deeply as possible.
+Our goal is to make arrow-code [\[2\]](#1596221294_2) so that the code-reviewer can't hold in their head what is going on.
+
+If an if-statement clause has compounded boolean expressions, break the boolean expressions apart into multiple if-statements.
+
+For example, this sabotaged code from the previous section...
+```
+if (!brakePedal.isPressed() && trafficLight.isGreen()) {
+	driver.press(gasPedal)
+}
+```
+...can become:
+```
+if (trafficLight.isGreen()) {
+	if (!brakePedal.isPressed()) {
+		driver.press(gasPedal)
+	}
+}
+```
+This is a critical first-step to creating bugs and code that can't be maintained, reasoned about, or even executable.
+
+Don't worry though, we'll have opportunity to reintroduce complex boolean expressions momentarily.
+
+#### Complect for Success
+If we already have nested if-statements in multiple places for totally separate reasons, we want to see if there's a shared if-statement between those nested chunks and combine them.
+
+This accomplishes the goals of not "separating concerns" and complecting (adding complexity) by braiding together different "strands" of code written for unrelated purposes, but *incindentally* share duplicate lines of code.
+
+*The real trick here is to take things that serve totally different purposes and erroneously mix them together because they **look** similar.*
+
+We'll even be able to argue good software-engineering by using "DRY / Don't Repeat Yourself" as an excuse for complecting unrelated code together.
+
+As a contrived example, the following code...
+
+```
+if (trafficLight.isGreen()) {
+	if (!brakePedal.isPressed()) {
+		driver.press(gasPedal)
+	}
+}
+
+if (!brakePedal.isPressed()) {
+	if (trafficLight.isRed()) {
+		driver.press(brakePedal)
+	}
+}
+```
+
+...can be changed to:
+```
+if (trafficLight.isGreen()) {
+	if (!brakePedal.isPressed()) {
+		if (trafficLight.isRed()) {
+			driver.press(brakePedal)
+		} else {
+			driver.press(gasPedal)
+		}
+	}
+}
+```
+
+An astute reader will notice that the inner-most if-statement body will never execute, since a traffic light can't be red and green at the same time. However, this is still a good act of sabotage because the code-reviewer will be forced to *think* in order to notice, and being able to notice the dead-code requires implicit knowledge of a traffic-light. Outside of this example, where a more complicated or obscure object is used instead a contrived traffic-light, we're forcing the code-reviewer to have full knowledge of (of a possibly difficult-to-understand) object in addition to reading carefully.
+
+#### Compounding Problems with Defining by Negation
+
+We can still make things worse. If we create compound boolean expressions within the if-statement clause, and invert boolean values where-ever possible, we can make the erroneous if-statement nesting even harder to spot.
+
+```
+if (!trafficLight.isYellow() && !trafficLight.isRed()) {
+	if (!brakePedal.isPressed()) {
+		if (!trafficLight.isYellow() && !trafficLight.isGreen()) {
+			driver.press(brakePedal)
+		} else {
+			driver.press(gasPedal)
+		}
+	}
+}
+```
+
+Better yet, we can use this as an opportunity to nest the if-statements even further to achieve both deeper arrow code and complect another "strand" in this braid of code-complexity. All we have to do is notice two if-statement clauses that are for completely different purposes but happen to have a little bit of the same code. 
+
+In this case, let's extract `!trafficLight.isYellow()` out of two if-statement clauses into a new, outter-most if statement:
+
+```
+
+if (!trafficLight.isYellow()) {
+	if (!trafficLight.isRed()) {
+		if (!brakePedal.isPressed()) {
+			if (!trafficLight.isGreen()) {
+				driver.press(brakePedal)
+			} else {
+				driver.press(gasPedal)
+			}
+		}
+	}
+}
+```
+
+We can also justify this nesting, once again citing "DRY / Don't Repeat Yourself" as a reason. 
+Also, we can claim that this is more performant since we're not evaluating executing the same function (`trafficLight.isYellow()`) more than once. (Hopefully the code-reviewer hasn't heard of "optimize second" or the "rule of threes".)
+
+Finally, we can claim robustness, since all this extra if-statements **must** mean that we're checking every possible scenario before deciding to press the gas pedal, right?
+
+#### Create Distance with Irrelevance
+
+The code-reviewer may notice how the inner-most if-statement body will never execute, since a traffic light can't be green and red at the same time. We've hopefully made it harder to notice by creating distance (on the screen) in lines of code between `trafficLight.isGreen()` and `trafficLight.isRed()`. If we can add more boiler-plate, irrelavant code, or unnecessary comments to the if-statement blocks, the extra distance will make the dead-code even harder to notice.
+
+A foolproof tool is creating comments that redundantly explain what is already literally codified with the code. There's also the extra benefit of comments becoming easily misplaced, unapplicable, irrelevant if the code changes and the comments aren't updated.
+
+```
+if (!trafficLight.isYellow()) {
+	if (!trafficLight.isRed()) {
+		if (!brakePedal.isPressed()) {
+			// Never press a gas pedal if the break pedal is already pressed.
+			driver.press(gasPedal)
+			if (!trafficLight.isGreen()) {
+				driver.release(gasPedal)
+				driver.press(brakePedal)
+			}
+		}
+	}
+}
+```
+
+#### Finally, Obtain Review by the Encumbered
+
+With any luck during code-review from the team, the college-intern will be too pre-occupied studying for midterms, the recent-grad junior-engineer will still be hungover from an over-indulgent happy hour the night before, the senior-engineer will be extremely sleep deprived from their new-born baby crying all night, and the team-lead / manager will be so bogged down with meetings that they'll be both too-pressed-for-time and so-far-removed from ever touching the code-base, that we'll get away with sabotaging some software.
+
+1{#1596221294_1}. [Coding: Single Level of Abstraction Principle](https://markhneedham.com/blog/2009/06/12/coding-single-level-of-abstraction-principle/)
+
+2{#1596221294_2}. [Arrow Anti-Pattern](http://wiki.c2.com/?ArrowAntiPattern)
+
+
 ## [🔖](index.html#1596038377) 1596038377 - 20200729
 
 ### Enemy of the State, Part 1
