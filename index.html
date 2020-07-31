@@ -33,7 +33,7 @@ void m() {
 
 <p>This is a good question, and the answer is counter-intuitive: we don&rsquo;t want to re-use the same object instance over-and-over in this case.</p>
 
-<p>We get told many times in school or out-dated Java books to &ldquo;avoid allocating&rdquo; and that &ldquo;<code>new</code> is expensive&rdquo;, which simply isn&rsquo;t true in all cases and leads to problems if followed rotely.</p>
+<p>We get told many times in school or out-dated Java books <a href="index.html#1596038377_1">[1]</a> to &ldquo;avoid allocating&rdquo; and that &ldquo;<code>new</code> is expensive&rdquo;, which simply isn&rsquo;t true in all cases and leads to problems if followed rotely.</p>
 
 <p>The reasoning is:</p>
 
@@ -50,6 +50,8 @@ void m() {
 <p>Beyond that, I personally have little patience for noisy repitition in lines of code, such as <code>ObjectName objectName = new ObjectName();</code>,  so if I can get away with just <code>new ObjectName()</code>, I do.  It reads a &lsquo;lil cleaner.</p>
 
 <p>In summary, we&rsquo;ll have more readable code and avoid bugs by greedily using the <code>new</code> keyword in attempts to have variables (objects) that are clean-slate, single use, and restricted to the smallest scope possible in our code. In specific (and somewhat rare) cases, we may not do this for performance reasons, but in general, we&rsquo;ll avoid bugs caused by stale-state in our code.</p>
+
+<p><fn id="1596038377_1">1. <a href="https://www.oreilly.com/library/view/java-performance-tuning/0596000154/ch04s02.html">Performance Tuning in Java</a> 2nd edition was published in 2003 and may be considered out-dated. It states at the beginning of Chapter 10 that &ldquo;objects are expensive to create&rdquo;, which could have been better worded (and future-proofed) as &ldquo;objects have a cost to create&rdquo;.  The point of the above log entry is to highlight how the cost is relative and can lower over time (let&rsquo;s say with improvements to the garbage-collector, increased hardware resources, etc.) such that the value of clean-code via ephemeral variables may well exceed the (increasingly cheaper) cost of object creation, in addition to following rules of readability of &ldquo;optimize second&rdquo;.</p></fn>
 
 <h2 id="1570731778"><a href="index.html#1570731778">🔖</a> 1570731778 - 20191010</h2>
 

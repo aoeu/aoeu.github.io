@@ -24,7 +24,7 @@ A reviewer asked me, "Could we just allocate `new Object()` once and just keep p
 
 This is a good question, and the answer is counter-intuitive: we don't want to re-use the same object instance over-and-over in this case.
 
-We get told many times in school or out-dated Java books to "avoid allocating" and that "`new` is expensive", which simply isn't true in all cases and leads to problems if followed rotely.
+We get told many times in school or out-dated Java books [\[1\]](index.html#1596038377_1) to "avoid allocating" and that "`new` is expensive", which simply isn't true in all cases and leads to problems if followed rotely.
 
 The reasoning is:
 
@@ -39,6 +39,8 @@ Otherwise, especially with any sort threading code, it is best to have "clean sl
 Beyond that, I personally have little patience for noisy repitition in lines of code, such as `ObjectName objectName = new ObjectName();`,  so if I can get away with just `new ObjectName()`, I do.  It reads a 'lil cleaner.
 
 In summary, we'll have more readable code and avoid bugs by greedily using the `new` keyword in attempts to have variables (objects) that are clean-slate, single use, and restricted to the smallest scope possible in our code. In specific (and somewhat rare) cases, we may not do this for performance reasons, but in general, we'll avoid bugs caused by stale-state in our code.
+
+1{#1596038377_1}. [Performance Tuning in Java](https://www.oreilly.com/library/view/java-performance-tuning/0596000154/ch04s02.html) 2nd edition was published in 2003 and may be considered out-dated. It states at the beginning of Chapter 10 that "objects are expensive to create", which could have been better worded (and future-proofed) as "objects have a cost to create".  The point of the above log entry is to highlight how the cost is relative and can lower over time (let's say with improvements to the garbage-collector, increased hardware resources, etc.) such that the value of clean-code via ephemeral variables may well exceed the (increasingly cheaper) cost of object creation, in addition to following rules of readability of "optimize second".
 
 ## [🔖](index.html#1570731778) 1570731778 - 20191010
 There's a configuration used sometimes in collusion with git submodules, or if writing a Go module that depends on an additional Go package in a private repository (thus tripping up `go get`'s ability to automatically download the dependency):
